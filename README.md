@@ -28,3 +28,18 @@ Tomcat Server:
   - Refer this link - https://phoenixnap.com/kb/install-tomcat-windows
 
 Troubleshooting reach out to me - Abhinav
+
+### Technologies used:-
+1.Front-End Development:
+
+2.Back-End Development
+- Java
+- JDBC
+- Servlet
+- MySQL
+
+### Software And Tools Used
+- IntellIJ Ultimate
+- Java JDK 21
+- Web Server: Embedded Apache Tomcat Server v10.3
+- Project Management Tool: Mavern
