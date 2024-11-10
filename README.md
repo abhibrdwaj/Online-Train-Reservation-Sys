@@ -88,6 +88,7 @@ If you encounter any issues:
 - Ensure that MySQL is running and the database credentials are correctly configured.
 - Verify that the tables and initial data are set up correctly by checking the database after running the SQL script.
 - Check the console logs for errors when running the Spring Boot application.
+- Reach out to abhinavbharadwaj.sarathy@rutgers.edu
 
 ### 5. Login/Logout Output (simple version)
 1. **Login Page**
