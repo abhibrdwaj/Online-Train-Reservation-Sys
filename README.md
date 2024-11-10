@@ -57,6 +57,15 @@ Before you begin, ensure you have the following software installed:
 
     ```bash
     mvn spring-boot:run
+   
+3. **If Maven is not installed**
+   We also support maven wrapper, which does not require you to install Maven in your system.
+   - For Windows
+     - mvnw.cmd clean install to build the app
+     - mvnw.cmd spring-boot:run to run the application
+   - For macOS
+     - ./mvnw clean install to build the app
+     - ./mvnw spring-boot:run to run the application
 
 The application should now be running at http://localhost:8080/.
 
@@ -69,8 +78,8 @@ The application should now be running at http://localhost:8080/.
 ### 4. Login Credentials
 To log in, use the following credentials:
 
-Username: customer
-Password: password123
+- Username: customer
+- Password: password123
 
 ### 5. Troubleshooting
 
@@ -79,3 +88,8 @@ If you encounter any issues:
 - Ensure that MySQL is running and the database credentials are correctly configured.
 - Verify that the tables and initial data are set up correctly by checking the database after running the SQL script.
 - Check the console logs for errors when running the Spring Boot application.
+
+
+![Login Background](images/login-page.jpg)
+![Login Background](images/welcome-page.jpg)
+![Login Background](images/logout-page.jpg)

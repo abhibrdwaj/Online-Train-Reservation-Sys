@@ -11,7 +11,7 @@ import jakarta.persistence.Column;
 public class User {
 
 	@Id
-	@Column(name = "username", length = 50, nullable = false)
+	@Column(name = "username", length = 50)
 	private String username;  // Primary key - mapped to 'username' column
 
 	@Column(name = "first_name", length = 50, nullable = false)

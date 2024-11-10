@@ -7,7 +7,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-image: url("${pageContext.request.contextPath}/static/image/background.jpg");
+            background-image: url("/images/background.jpg");
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;

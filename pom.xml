@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>
-			<version>5.0.0</version> <!-- Or the version compatible with your Jakarta EE setup -->
+			<version>6.0.0</version> <!-- Or the version compatible with your Jakarta EE setup -->
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -82,6 +82,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>3.3.5</version> <!-- Match Spring Boot version -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
