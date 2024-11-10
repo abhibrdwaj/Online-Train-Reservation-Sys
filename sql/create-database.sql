@@ -119,3 +119,5 @@ CREATE TABLE UserRoles (
 INSERT into Users (last_name, first_name, username, password, email_address)
 VALUES ('Bharadwaj', 'Abhinav', 'customer', 'password123', 'abhinav.bharadwaj@example.com');
 
+SELECT * FROM Users;
+
