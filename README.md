@@ -90,6 +90,6 @@ If you encounter any issues:
 - Check the console logs for errors when running the Spring Boot application.
 
 
-![Login Background](images/login-page.jpg)
-![Login Background](images/welcome-page.jpg)
-![Login Background](images/logout-page.jpg)
+![Login Background](assets/img/login-page.jpg)
+![Login Background](assets/img/welcome-page.jpg)
+![Login Background](assets/img/logout-page.jpg)
