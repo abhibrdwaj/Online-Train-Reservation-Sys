@@ -6,6 +6,12 @@
     <title>Login - Railway Booking System</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background-image: url("${pageContext.request.contextPath}/static/image/background.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
         .login-container {
             max-width: 400px;
             margin: auto;
