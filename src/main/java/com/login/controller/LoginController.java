@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.login.service.LoginService;
+import com.login.model.User;
 
 @Controller
 public class LoginController {
@@ -22,15 +23,14 @@ public class LoginController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public String showWelcomePage(ModelMap model, @RequestParam String name, @RequestParam String password){
  
-        boolean isValidUser = service.validateUser(name, password);
+        User user = service.authenticateUser(name, password);
  
-        if (!isValidUser) {
-            model.put("errorMessage", "Invalid Credentials");
+        if (user == null) {
+            model.addAttribute("error", "Invalid Credentials");
             return "login";
         }
  
-        model.put("name", name);
-        model.put("password", password);
+        model.addAttribute("user", user);
  
         return "logout";
     }
