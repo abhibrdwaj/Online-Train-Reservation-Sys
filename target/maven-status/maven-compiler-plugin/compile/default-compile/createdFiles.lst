@@ -1,5 +1,0 @@
-com/login/JspSpringSqlLoginApplication.class
-com/login/service/LoginService.class
-com/login/repository/LoginRepository.class
-com/login/controller/LoginController.class
-com/login/model/User.class
