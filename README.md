@@ -50,7 +50,8 @@ Before you begin, ensure you have the following software installed:
     spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
 
 
-### 2. Start the application
+## Run the application
+### 1. Start the application
 
 1. **Build the Application**
     Use Maven to build the Spring Boot application:
@@ -81,13 +82,13 @@ The application should now be running at http://localhost:8080/.
 - Open your browser and navigate to the following URL to access the login page:
   http://localhost:8080/login
 
-### 4. Login Credentials
+## Login Credentials
 To log in, use the following credentials:
 
 - Username: customer
 - Password: password123
 
-### 5. Troubleshooting
+## Troubleshooting
 
 If you encounter any issues:
 
@@ -96,7 +97,7 @@ If you encounter any issues:
 - Check the console logs for errors when running the Spring Boot application.
 - Reach out to abhinavbharadwaj.sarathy@rutgers.edu
 
-### 5. Login/Logout Output (simple version)
+## Login/Logout Output (simple version)
 1. **Login Page**
 ![Login Background](assets/img/login-page.jpg)
 
