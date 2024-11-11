@@ -34,7 +34,7 @@ Before you begin, ensure you have the following software installed:
 
    **Example**:
    ```sql
-   source /path/to/your/project/sql/create-database.sql;
+   source sql/create-database.sql;
 
 
 2. **Update Application Properties**
@@ -42,7 +42,7 @@ Before you begin, ensure you have the following software installed:
 
     **Sample**:
     ```properties
-    spring.datasource.url=jdbc:mysql://localhost:3306/railway_booking_system
+    spring.datasource.url=jdbc:mysql://localhost:3306/RailwayBookingSystem
     spring.datasource.username=your_mysql_username
     spring.datasource.password=your_mysql_password
     spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
