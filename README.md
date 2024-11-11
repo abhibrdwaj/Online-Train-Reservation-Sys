@@ -1,5 +1,11 @@
 # Railway Booking System - User Login
 
+## Members
+
+- Manassa Jagannathan (mj900)
+- Puja Sridhar (ps1393)
+- Abhinav Bharadwaj Sarathy (ab2812)
+
 ## Overview
 
 This project is a Railway Booking System that allows users to log in and book train tickets. The system is built using **Spring Boot**, **JSP**, and **MySQL**.
