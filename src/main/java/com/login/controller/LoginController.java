@@ -32,7 +32,7 @@ public class LoginController {
  
         model.addAttribute("user", user);
  
-        return "logout";
+        return "make_reservation";
     }
      
     @RequestMapping(value="/logout", method = RequestMethod.GET)
