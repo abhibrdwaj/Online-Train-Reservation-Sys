@@ -1,6 +1,15 @@
 CREATE DATABASE RailwayBookingSystem;
 Use RailwayBookingSystem;
 
+-- Drop existing tables if they exist
+DROP TABLE IF EXISTS Stations;
+DROP TABLE IF EXISTS TransitLines;
+DROP TABLE IF EXISTS Trains;
+DROP TABLE IF EXISTS Schedules;
+DROP TABLE IF EXISTS Reservations;
+DROP TABLE IF EXISTS TrainStops;
+DROP TABLE IF EXISTS Users;
+
 CREATE TABLE Stations (
     station_id INT PRIMARY KEY,
     station_name VARCHAR(100) NOT NULL,
@@ -53,21 +62,9 @@ CREATE TABLE Users (
     username VARCHAR(100) PRIMARY KEY,
     password VARCHAR(255) NOT NULL,
     email_address VARCHAR(100) UNIQUE,
-    social_security_number VARCHAR(11) UNIQUE
+    social_security_number VARCHAR(11) UNIQUE,
+    role VARCHAR(100) NOT NULL -- ('CUSTOMER', 'ADMIN', 'CUSTOMER REP')
 );
-
--- If required later: have two tables (Coming Soon)
--- CREATE TABLE Customers (
---     customer_id INT PRIMARY KEY,
---     email_address VARCHAR(100) UNIQUE NOT NULL,
---     FOREIGN KEY (customer_id) REFERENCES Users(user_id)
--- );
-
--- CREATE TABLE Employees (
---     employee_id INT PRIMARY KEY,
---     social_security_number VARCHAR(11) UNIQUE NOT NULL,
---     FOREIGN KEY (employee_id) REFERENCES Users(user_id)
--- );
 
 -- Reservation Data Tables
 CREATE TABLE Reservations (
@@ -84,14 +81,6 @@ CREATE TABLE Reservations (
     FOREIGN KEY (origin_station_id) REFERENCES Stations(station_id),
     FOREIGN KEY (destination_station_id) REFERENCES Stations(station_id),
     FOREIGN KEY (schedule_id) REFERENCES Schedules(schedule_id)
-);
-
--- Access Control Tables (Coming Soon)
-CREATE TABLE UserRoles (
-    user_role_id INT PRIMARY KEY,
-    username VARCHAR(100),
-    role_type ENUM('manager', 'customer_rep', 'customer') NOT NULL,
-    FOREIGN KEY (username) REFERENCES Users(username)
 );
 
 -- Forum and Customer Service Tables (Coming Soon)
@@ -116,8 +105,8 @@ CREATE TABLE UserRoles (
 
 -- INSERT User data
 
-INSERT into Users (last_name, first_name, username, password, email_address)
-VALUES ('Bharadwaj', 'Abhinav', 'customer', 'password123', 'abhinav.bharadwaj@example.com');
+INSERT into Users (last_name, first_name, username, password, email_address, role)
+VALUES ('Bharadwaj', 'Abhinav', 'customer', 'password123', 'abhinav.bharadwaj@example.com', 'CUSTOMER');
 
 SELECT * FROM Users;
 
