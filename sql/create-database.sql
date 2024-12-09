@@ -108,5 +108,138 @@ CREATE TABLE Reservations (
 INSERT into Users (last_name, first_name, username, password, email_address, role)
 VALUES ('Bharadwaj', 'Abhinav', 'customer', 'password123', 'abhinav.bharadwaj@example.com', 'CUSTOMER');
 
-SELECT * FROM Users;
+-- Insert stations into the Stations table
+INSERT INTO Stations (station_id, station_name, city, state)
+VALUES
+    (1, 'Newark Penn Station', 'Newark', 'New Jersey'),
+    (2, 'Secaucus Junction', 'Secaucus', 'New Jersey'),
+    (3, 'Hoboken Terminal', 'Hoboken', 'New Jersey'),
+    (4, 'Princeton Junction', 'Princeton', 'New Jersey'),
+    (5, 'Trenton Transit Center', 'Trenton', 'New Jersey'),
+    (6, 'New Brunswick Station', 'New Brunswick', 'New Jersey'),
+    (7, 'Metropark Station', 'Iselin', 'New Jersey'),
+    (8, 'Penn Station', 'New York', 'New York'); -- Adding an NY station for inter-state travel
+
+-- Insert transit lines into the TransitLines table
+INSERT INTO TransitLines (name, origin_station_id, destination_station_id, fare, no_of_stops)
+VALUES
+    ('Northeast Corridor', 5, 1, 45.00, 3), -- Trenton to Newark Penn
+    ('North Jersey Coast Line', 1, 7, 40.00, 4), -- Newark Penn to Metropark
+    ('Midtown Direct', 3, 8, 55.00, 2), -- Hoboken to NY Penn
+    ('Princeton Shuttle', 4, 6, 30.00, 1), -- Princeton Junction to New Brunswick
+    ('Secaucus Express', 2, 8, 50.00, 1), -- Secaucus Junction to NY Penn
+    ('Trenton Local', 5, 4, 35.00, 2); -- Trenton to Princeton Junction
+
+
+INSERT INTO Trains (transit_line_name)
+VALUES
+    ('Northeast Corridor'), ('Northeast Corridor'), ('Northeast Corridor'),
+    ('Northeast Corridor'), ('Northeast Corridor'),
+    ('North Jersey Coast Line'), ('North Jersey Coast Line'), ('North Jersey Coast Line'),
+    ('North Jersey Coast Line'), ('North Jersey Coast Line'),
+    ('Midtown Direct'), ('Midtown Direct'), ('Midtown Direct'),
+    ('Midtown Direct'), ('Midtown Direct'),
+    ('Princeton Shuttle'), ('Princeton Shuttle'), ('Princeton Shuttle'),
+    ('Princeton Shuttle'), ('Princeton Shuttle'),
+    ('Secaucus Express'), ('Secaucus Express'), ('Secaucus Express'),
+    ('Secaucus Express'), ('Secaucus Express'),
+    ('Trenton Local'), ('Trenton Local'), ('Trenton Local'),
+    ('Trenton Local'), ('Trenton Local');
+
+
+-- Insert sample schedules into the Schedules table
+INSERT INTO Schedules (schedule_id, train_id, departure_datetime, arrival_datetime, travel_time)
+VALUES
+-- Morning Trains
+(1, 1000, '2024-12-10 06:00:00', '2024-12-10 08:00:00', '02:00:00'),
+(2, 1005, '2024-12-10 07:30:00', '2024-12-10 09:00:00', '01:30:00'),
+-- Brunch Trains
+(3, 1010, '2024-12-10 10:00:00', '2024-12-10 12:30:00', '02:30:00'),
+(4, 1015, '2024-12-10 11:00:00', '2024-12-10 11:30:00', '00:30:00'),
+-- Afternoon Trains
+(5, 1020, '2024-12-10 13:00:00', '2024-12-10 15:00:00', '02:00:00'),
+(6, 1025, '2024-12-10 14:30:00', '2024-12-10 16:30:00', '02:00:00'),
+-- Evening Trains
+(7, 1001, '2024-12-10 18:00:00', '2024-12-10 20:30:00', '02:30:00'),
+(8, 1006, '2024-12-10 19:00:00', '2024-12-10 21:00:00', '02:00:00'),
+-- Night Trains
+(9, 1011, '2024-12-10 22:00:00', '2024-12-11 00:30:00', '02:30:00'),
+(10, 1016, '2024-12-10 23:30:00', '2024-12-11 00:00:00', '00:30:00');
+
+
+-- Insert stops for Schedule 1 (Train 1000 on Northeast Corridor)
+INSERT INTO TrainStops (schedule_id, station_id, arrival_datetime, departure_datetime, stop_number)
+VALUES
+    (1, 5, '2024-12-10 06:00:00', '2024-12-10 06:05:00', 1), -- Trenton
+    (1, 6, '2024-12-10 06:45:00', '2024-12-10 06:50:00', 2), -- New Brunswick
+    (1, 7, '2024-12-10 07:30:00', '2024-12-10 07:35:00', 3), -- Metropark
+    (1, 1, '2024-12-10 08:00:00', '2024-12-10 08:05:00', 4); -- Newark Penn
+
+-- Insert stops for Schedule 2 (Train 1005 on North Jersey Coast Line)
+INSERT INTO TrainStops (schedule_id, station_id, arrival_datetime, departure_datetime, stop_number)
+VALUES
+    (2, 1, '2024-12-10 07:30:00', '2024-12-10 07:35:00', 1), -- Newark Penn
+    (2, 6, '2024-12-10 08:00:00', '2024-12-10 08:05:00', 2), -- New Brunswick
+    (2, 7, '2024-12-10 08:30:00', '2024-12-10 08:35:00', 3); -- Metropark
+
+-- Insert stops for Schedule 3 (Train 1010 on Midtown Direct)
+INSERT INTO TrainStops (schedule_id, station_id, arrival_datetime, departure_datetime, stop_number)
+VALUES
+    (3, 3, '2024-12-10 10:00:00', '2024-12-10 10:05:00', 1), -- Hoboken Terminal
+    (3, 2, '2024-12-10 11:00:00', '2024-12-10 11:05:00', 2), -- Secaucus Junction
+    (3, 8, '2024-12-10 12:30:00', '2024-12-10 12:35:00', 3); -- New York Penn
+
+-- Insert stops for Schedule 4 (Train 1015 on Raritan Valley Line)
+INSERT INTO TrainStops (schedule_id, station_id, arrival_datetime, departure_datetime, stop_number)
+VALUES
+    (4, 4, '2024-12-10 11:00:00', '2024-12-10 11:05:00', 1), -- Summit
+    (4, 6, '2024-12-10 11:30:00', '2024-12-10 11:35:00', 2), -- New Brunswick
+    (4, 1, '2024-12-10 12:00:00', '2024-12-10 12:05:00', 3); -- Newark Penn
+
+-- Insert stops for Schedule 5 (Train 1020 on Northeast Corridor)
+INSERT INTO TrainStops (schedule_id, station_id, arrival_datetime, departure_datetime, stop_number)
+VALUES
+    (5, 5, '2024-12-10 13:00:00', '2024-12-10 13:05:00', 1), -- Trenton
+    (5, 6, '2024-12-10 13:30:00', '2024-12-10 13:35:00', 2), -- New Brunswick
+    (5, 7, '2024-12-10 14:00:00', '2024-12-10 14:05:00', 3); -- Metropark
+
+-- Insert stops for Schedule 6 (Train 1025 on North Jersey Coast Line)
+INSERT INTO TrainStops (schedule_id, station_id, arrival_datetime, departure_datetime, stop_number)
+VALUES
+    (6, 1, '2024-12-10 14:30:00', '2024-12-10 14:35:00', 1), -- Newark Penn
+    (6, 6, '2024-12-10 15:00:00', '2024-12-10 15:05:00', 2), -- New Brunswick
+    (6, 7, '2024-12-10 15:30:00', '2024-12-10 15:35:00', 3); -- Metropark
+
+-- Insert stops for Schedule 7 (Train 1001 on Midtown Direct)
+INSERT INTO TrainStops (schedule_id, station_id, arrival_datetime, departure_datetime, stop_number)
+VALUES
+    (7, 3, '2024-12-10 18:00:00', '2024-12-10 18:05:00', 1), -- Hoboken Terminal
+    (7, 2, '2024-12-10 19:00:00', '2024-12-10 19:05:00', 2), -- Secaucus Junction
+    (7, 8, '2024-12-10 20:30:00', '2024-12-10 20:35:00', 3); -- New York Penn
+
+-- Insert stops for Schedule 8 (Train 1006 on Raritan Valley Line)
+INSERT INTO TrainStops (schedule_id, station_id, arrival_datetime, departure_datetime, stop_number)
+VALUES
+    (8, 4, '2024-12-10 19:00:00', '2024-12-10 19:05:00', 1), -- Summit
+    (8, 6, '2024-12-10 19:30:00', '2024-12-10 19:35:00', 2), -- New Brunswick
+    (8, 1, '2024-12-10 20:00:00', '2024-12-10 20:05:00', 3); -- Newark Penn
+
+-- Insert stops for Schedule 9 (Train 1011 on Northeast Corridor)
+INSERT INTO TrainStops (schedule_id, station_id, arrival_datetime, departure_datetime, stop_number)
+VALUES
+    (9, 5, '2024-12-10 22:00:00', '2024-12-10 22:05:00', 1), -- Trenton
+    (9, 6, '2024-12-10 22:45:00', '2024-12-10 22:50:00', 2), -- New Brunswick
+    (9, 7, '2024-12-10 23:30:00', '2024-12-10 23:35:00', 3), -- Metropark
+    (9, 1, '2024-12-11 00:00:00', '2024-12-11 00:05:00', 4); -- Newark Penn
+
+-- Insert stops for Schedule 10 (Train 1016 on Midtown Direct)
+INSERT INTO TrainStops (schedule_id, station_id, arrival_datetime, departure_datetime, stop_number)
+VALUES
+    (10, 3, '2024-12-10 23:30:00', '2024-12-10 23:35:00', 1), -- Hoboken Terminal
+    (10, 2, '2024-12-11 00:00:00', '2024-12-11 00:05:00', 2), -- Secaucus Junction
+    (10, 8, '2024-12-11 00:30:00', '2024-12-11 00:35:00', 3); -- New York Penn
+
+
+
+SELECT * FROM TrainStops;
 

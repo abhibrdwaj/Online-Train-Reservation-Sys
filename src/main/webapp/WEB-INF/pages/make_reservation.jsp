@@ -1,3 +1,4 @@
+<jsp:include page="header.jsp" />
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -10,7 +11,7 @@
         }
         .form-container {
             max-width: 600px;
-            margin: auto;
+            margin: 10px auto;
             border: 1px solid #ccc;
             padding: 20px;
             border-radius: 8px;
@@ -44,9 +45,6 @@
     </style>
 </head>
 <body>
-<div class="header">
-    <img src="../images/trainline-logo.png" alt="Trainline Logo" class="logo">
-</div>
 <div class="form-container">
     <h2>Search Trains</h2>
         <form action="searchResults" method="post">   
