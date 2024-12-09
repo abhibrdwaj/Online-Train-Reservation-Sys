@@ -43,7 +43,7 @@
                 <button class="btn btn-light"><img src="${pageContext.request.contextPath}/static/image/google-icon.png" alt="Google"></button>
             </div>
             <div class="register-link">
-                <p>New customer? <a href="${pageContext.request.contextPath}/register">Register now</a></p>
+                <p>New customer? <a href="${pageContext.request.contextPath}/appUsers/register">Register now</a></p>
             </div>
         </form>
     </div>

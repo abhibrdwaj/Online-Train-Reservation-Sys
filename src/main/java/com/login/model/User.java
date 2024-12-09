@@ -29,6 +29,9 @@ public class User {
 	@Column(name = "social_security_number", length = 11, unique = true)
 	private String socialSecurityNumber;  // Nullable for customers
 
+	@Column(name = "role", length = 100, nullable = false)
+	private String role;
+
 	// Getters and Setters
 	public String getUsername() {
 		return username;
@@ -68,6 +71,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
     
 }
