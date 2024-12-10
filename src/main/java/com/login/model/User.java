@@ -32,6 +32,19 @@ public class User {
 	@Column(name = "role", length = 100, nullable = false)
 	private String role;
 
+	public User() {
+	}
+
+	public User(String lastName, String firstName, String username, String password, String email, String ssn, String role) {
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.username = username;
+		this.password = password;
+		this.emailAddress = email;
+		this.socialSecurityNumber = ssn;
+		this.role = role;
+	}
+
 	// Getters and Setters
 	public String getUsername() {
 		return username;
@@ -79,6 +92,14 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getSocialSecurityNumber() {
+		return socialSecurityNumber;
+	}
+
+	public void setSocialSecurityNumber(String socialSecurityNumber) {
+		this.socialSecurityNumber = socialSecurityNumber;
 	}
     
 }

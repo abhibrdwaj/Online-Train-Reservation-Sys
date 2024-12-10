@@ -7,15 +7,17 @@ import com.login.model.User;
 import com.login.repository.UserRepository;
 import com.login.constants.Roles;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public User registerNewCustomer(User user) {
+    public User registerNewUser(User user) {
         user.setRole(Roles.CUSTOMER);
-        User result = userRepository.save(user);
-        return result;
+        return userRepository.save(user);
     }
 }
