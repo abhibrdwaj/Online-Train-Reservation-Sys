@@ -56,6 +56,7 @@
             <c:when test="${role == 'ADMIN'}">
                 <a href="/admin/dashboard">Dashboard</a>
                 <a href="/admin/manage_rep">Employees</a>
+                <a href="/admin/view_reservations">Reservations</a>
                 <a href="/login">Logout </a>
             </c:when>
             <c:when test="${role == 'CUSTOMER'}">

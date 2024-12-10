@@ -30,7 +30,7 @@ public class Reservations {
     @Column(name = "total_fare")
     private long totalFare;
     @Column(name = "is_round_trip")
-    private boolean Rountrip;
+    private boolean roundTrip;
 
     public int getReservationNo() {
         return this.reservationNo;
@@ -96,12 +96,12 @@ public class Reservations {
         this.totalFare = totalFare;
     }
 
-    public boolean getRountrip() {
-        return this.Rountrip;
+    public boolean getRoundTrip() {
+        return this.roundTrip;
     }
 
-    public void setRountrip(boolean Rountrip) {
-        this.Rountrip = Rountrip;
+    public void setRoundTrip(boolean roundTrip) {
+        this.roundTrip = roundTrip;
     }
 
 }

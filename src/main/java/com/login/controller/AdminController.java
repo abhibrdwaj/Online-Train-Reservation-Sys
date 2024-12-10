@@ -1,12 +1,18 @@
 package com.login.controller;
 
+import com.login.model.Reservations;
 import com.login.service.AdminService;
+import com.login.service.ReservationService;
+import com.opencsv.CSVWriter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +22,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private ReservationService reservationService;
 
     @PostMapping("/addRep")
     public String addRep(@RequestParam String firstName,
@@ -61,4 +70,60 @@ public class AdminController {
         adminService.deleteCustomerRep(repId);
         return "redirect:/admin/manage_rep";
     }
+
+    @GetMapping("/view_reservations")
+    public String getReservations(@RequestParam(required = false) String firstName,
+                                  @RequestParam(required = false) String lastName,
+                                  @RequestParam(required = false) String transitLineName,
+                                  @RequestParam(defaultValue = "1") int page,
+                                  Model model) {
+        int pageSize = 10;
+        Page<Reservations> reservations;
+        long totalReservations;
+
+        if (firstName != null && lastName != null) {
+            reservations = reservationService.findByCustomerName(firstName, lastName, page, pageSize);
+        } else if (transitLineName != null) {
+            reservations = reservationService.findByTransitLine(transitLineName, page, pageSize);
+        } else {
+            reservations = reservationService.getAllReservationsPageable(page, pageSize);
+        }
+
+        totalReservations = reservations.getTotalElements();
+
+        int totalPages = (int) Math.ceil((double) totalReservations / pageSize);
+
+        model.addAttribute("reservations", reservations.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+
+        return "admin/view_reservations";
+    }
+
+    @GetMapping("/reservations/download")
+    public void downloadCSV(HttpServletResponse response) throws IOException {
+        List<Reservations> reservations = reservationService.getAllReservations();
+
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=reservations.csv");
+
+        try (CSVWriter writer = new CSVWriter(response.getWriter())) {
+            String[] header = {"Reservation No", "Customer", "Reservation Date", "Origin Station", "Destination Station", "Schedule ID", "Total Fare", "Round Trip"};
+            writer.writeNext(header);
+            for (Reservations reservation : reservations) {
+                String[] data = {
+                        String.valueOf(reservation.getReservationNo()),
+                        reservation.getCustomer(),
+                        reservation.getReservationDate().toString(),
+                        String.valueOf(reservation.getOriginStationId()),
+                        String.valueOf(reservation.getDestinationStationId()),
+                        String.valueOf(reservation.getScheduleId()),
+                        String.valueOf(reservation.getTotalFare()),
+                        reservation.getRoundTrip() ? "Yes" : "No"
+                };
+                writer.writeNext(data);
+            }
+        }
+    }
+
 }
