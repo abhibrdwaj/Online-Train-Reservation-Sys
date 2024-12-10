@@ -104,9 +104,14 @@ CREATE TABLE Reservations (
 
 
 -- INSERT User data
+SELECT * FROM users;
 
 INSERT into Users (last_name, first_name, username, password, email_address, role)
-VALUES ('Bharadwaj', 'Abhinav', 'customer', 'password123', 'abhinav.bharadwaj@example.com', 'CUSTOMER');
+VALUES
+    ('Bharadwaj', 'Abhinav', 'customer1', '$2a$10$AaFBB8rM80GIf/Yr/pc3TOhD3WGA.T4/Dfcub84u7Fy589Yeo7w9O', 'abhinav.bharadwaj@example.com', 'CUSTOMER'),
+    ('User 1','Admin', 'adminuser1', '2a$10$AaFBB8rM80GIf/Yr/pc3TOhD3WGA.T4/Dfcub84u7Fy589Yeo7w9O', 'abhinav.admin@example.com', 'ADMIN'),
+    ('Rep 1','Customer', 'customerrep1', '2a$10$AaFBB8rM80GIf/Yr/pc3TOhD3WGA.T4/Dfcub84u7Fy589Yeo7w9O', 'abhinav.rep1@example.com', 'CUSTOMER_REP'),
+    ('Rep 2','Customer', 'customerrep2', '2a$10$AaFBB8rM80GIf/Yr/pc3TOhD3WGA.T4/Dfcub84u7Fy589Yeo7w9O', 'abhinav.rep2@example.com', 'CUSTOMER_REP');
 
 -- Insert stations into the Stations table
 INSERT INTO Stations (station_id, station_name, city, state)
