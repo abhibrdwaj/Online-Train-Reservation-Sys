@@ -49,9 +49,8 @@
         <img src="../images/trainline-logo.png" alt="Trainline Logo" class="logo">
     </div>
     <div class="nav-links">
-        <a href="/make_reservation">Home</a>
-        <a href="bookings.jsp">My Bookings</a>
-        <a href="support.jsp">Support</a>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/manage_rep">Manage Reps</a>
         <a href="/login">Logout </a>
     </div>
 </div>

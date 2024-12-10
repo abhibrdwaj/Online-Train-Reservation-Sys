@@ -28,7 +28,7 @@ public class RegistrationController {
     @GetMapping(RegistrationEndpoints.SHOW_REGISTRATION_FORM)
     public String showRegistarionForm() {
 
-        return "register_user";
+        return "user/register_user";
     }
 
 
@@ -65,6 +65,6 @@ public class RegistrationController {
         // Pass the registration result to the view
         model.addAttribute("userRegResult", userRegistrationResult);
 
-        return "user_registration_success";
+        return "user/user_registration_success";
     }
 }
