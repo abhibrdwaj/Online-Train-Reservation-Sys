@@ -17,11 +17,6 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @GetMapping("/dashboard")
-    public String showDashboard(ModelMap model) {
-        return "admin/dashboard";
-    }
-
     @PostMapping("/addRep")
     public String addRep(@RequestParam String firstName,
                          @RequestParam String lastName,
@@ -61,7 +56,7 @@ public class AdminController {
         return "redirect:/admin/manage_rep"; // Redirect back to the list of representatives
     }
 
-    @DeleteMapping("/deleteRep/{repId}")
+    @GetMapping("/deleteRep/{repId}")
     public String deleteRep(@PathVariable String repId) {
         adminService.deleteCustomerRep(repId);
         return "redirect:/admin/manage_rep";

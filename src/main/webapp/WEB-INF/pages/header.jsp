@@ -47,7 +47,9 @@
 <body>
 <div class="header">
     <div class="logo">
-        <img src="../images/trainline-logo.png" alt="Trainline Logo" class="logo">
+        <a href="/admin/dashboard" target="_blank">
+            <img src="../images/trainline-logo.png" alt="Trainline Logo" class="logo">
+        </a>
     </div>
     <div class="nav-links">
         <c:choose>
