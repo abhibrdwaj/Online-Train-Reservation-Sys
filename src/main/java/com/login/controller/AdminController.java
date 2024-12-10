@@ -40,17 +40,20 @@ public class AdminController {
         return "admin/manage_rep"; // JSP page
     }
 
-    @PostMapping("/updateRep/{repId}")
+    @PostMapping("/updateRep")
     public String updateRep(
-            @PathVariable("repId") String repId,
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("email") String email,
-            @RequestParam("socialSecurityNumber") String socialSecurityNumber,
+            @RequestBody Map<String, String> payload,
             Model model) {
         try {
+            // Extract data from the payload
+            String repId = payload.get("repId");
+            String firstName = payload.get("firstName");
+            String lastName = payload.get("lastName");
+            String emailAddress = payload.get("emailAddress");
+            String socialSecurityNumber = payload.get("socialSecurityNumber");
+
             // Call the service to update the representative
-            adminService.updateRep(repId, firstName, lastName, email, socialSecurityNumber);
+            adminService.updateRep(repId, firstName, lastName, emailAddress, socialSecurityNumber);
             model.addAttribute("successMessage", "Representative updated successfully.");
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error updating representative: " + e.getMessage());

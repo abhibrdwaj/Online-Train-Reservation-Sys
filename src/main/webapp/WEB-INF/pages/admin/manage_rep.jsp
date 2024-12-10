@@ -55,6 +55,69 @@
             display: none;
         }
     </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Manage Customer Representatives</h2>
+            <button onclick="toggleAddForm()">+ Add New</button>
+        </div>
+
+        <!-- Add Representative Form -->
+        <div id="add-rep-form" class="add-rep-form">
+            <form action="/admin/addRep" method="post">
+                <label>First Name: <input type="text" name="firstName" required></label><br><br>
+                <label>Last Name: <input type="text" name="lastName" required></label><br><br>
+                <label>Email: <input type="email" name="emailAddress" required></label><br><br>
+                <label>Social Security Number: <input type="text" name="socialSecurityNumber" required></label><br><br>
+                <label>Username: <input type="text" name="username" required></label><br><br>
+                <button type="submit">Save</button>
+                <button type="button" onclick="toggleAddForm()">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Representative List -->
+        <table class="rep-list">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Social Security Number</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="rep" items="${reps}">
+                <tr id="rep-${rep.username}">
+                    <td>
+                        <span class="display-field">${rep.firstName}</span>
+                        <input class="edit-field hidden" type="text" value="${rep.firstName}" name="firstName">
+                    </td>
+                    <td>
+                        <span class="display-field">${rep.lastName}</span>
+                        <input class="edit-field hidden" type="text" value="${rep.lastName}" name="lastName">
+                    </td>
+                    <td>
+                        <span class="display-field">${rep.emailAddress}</span>
+                        <input class="edit-field hidden" type="text" value="${rep.emailAddress}" name="emailAddress">
+                    </td>
+                    <td>
+                        <span class="display-field">${rep.socialSecurityNumber}</span>
+                        <input class="edit-field hidden" type="text" value="${rep.socialSecurityNumber}" name="socialSecurityNumber">
+                    </td>
+                    <td class="actions">
+                        <button class="edit-btn" onclick="toggleEdit(`${rep.username}`)">Edit</button>
+                        <button class="delete-btn" onclick="location.href='/admin/deleteRep/${rep.username}'">Delete</button>
+                        <button class="save-btn hidden" onclick="submitChanges('${rep.username}')">Save</button>
+                        <button class="cancel-btn hidden" onclick="toggleEdit(`${rep.username}`)">Cancel</button>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
     <script>
         function toggleAddForm() {
             const form = document.getElementById('add-rep-form');
@@ -62,7 +125,8 @@
         }
 
         function toggleEdit(repId) {
-            const container = document.getElementById(`rep-${repId}`);
+            const element =  "rep-" + repId;
+            const container = document.getElementById(element);
             const editFields = container.querySelectorAll('.edit-field');
             const displayFields = container.querySelectorAll('.display-field');
             const editButton = container.querySelector('.edit-btn');
@@ -88,69 +152,44 @@
                 cancelButton.style.display = 'none';
             }
         }
+
+        // Submit changes to the server--%>
+        function submitChanges(repId) {
+            const element =  "rep-" + repId;
+            const container = document.getElementById(element);
+            const editables = container.querySelectorAll('.edit-field');
+            var payload = {};
+            payload.repId = repId;
+
+            // Collect updated values
+            editables.forEach((input, index) => {
+                if (index === 0) payload.firstName = input.value;
+                if (index === 1) payload.lastName = input.value;
+                if (index === 2) payload.emailAddress = input.value;
+                if (index === 3) payload.socialSecurityNumber = input.value;
+            });
+
+            // Example AJAX call to submit changes
+            fetch('/admin/updateRep', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Changes saved successfully.');
+                        location.reload(); // Reload page to show updated data
+                    } else {
+                        alert('Failed to save changes.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
     </script>
-</head>
-<body>
-<div class="container">
-    <div class="header">
-        <h2>Manage Customer Representatives</h2>
-        <button onclick="toggleAddForm()">+ Add New</button>
-    </div>
-
-    <!-- Add Representative Form -->
-    <div id="add-rep-form" class="add-rep-form">
-        <form action="/admin/addRep" method="post">
-            <label>First Name: <input type="text" name="firstName" required></label><br><br>
-            <label>Last Name: <input type="text" name="lastName" required></label><br><br>
-            <label>Email: <input type="email" name="emailAddress" required></label><br><br>
-            <label>Social Security Number: <input type="text" name="socialSecurityNumber" required></label><br><br>
-            <label>Username: <input type="text" name="username" required></label><br><br>
-            <button type="submit">Save</button>
-            <button type="button" onclick="toggleAddForm()">Cancel</button>
-        </form>
-    </div>
-
-    <!-- Representative List -->
-    <table class="rep-list">
-        <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Social Security Number</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="rep" items="${reps}">
-            <tr id="rep-${rep.username}">
-                <td>
-                    <span class="display-field">${rep.firstName}</span>
-                    <input class="edit-field hidden" type="text" value="${rep.firstName}" name="firstName">
-                </td>
-                <td>
-                    <span class="display-field">${rep.lastName}</span>
-                    <input class="edit-field hidden" type="text" value="${rep.lastName}" name="lastName">
-                </td>
-                <td>
-                    <span class="display-field">${rep.emailAddress}</span>
-                    <input class="edit-field hidden" type="text" value="${rep.emailAddress}" name="email">
-                </td>
-                <td>
-                    <span class="display-field">${rep.socialSecurityNumber}</span>
-                    <input class="edit-field hidden" type="text" value="${rep.socialSecurityNumber}" name="socialSecurityNumber">
-                </td>
-                <td class="actions">
-                    <button class="edit-btn" onclick="toggleEdit('${rep.username}')">Edit</button>
-                    <button class="delete-btn" onclick="location.href='/admin/deleteRep/${rep.username}'">Delete</button>
-                    <button class="save-btn hidden" onclick="document.getElementById('rep-${rep.username}').querySelector('form').submit()">Save</button>
-                    <button class="cancel-btn hidden" onclick="toggleEdit('${rep.username}')">Cancel</button>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</div>
 </body>
 </html>
 
