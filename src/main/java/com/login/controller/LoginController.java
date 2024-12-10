@@ -39,4 +39,9 @@ public class LoginController {
     public String showLogoutPage(ModelMap model){
         return "login";
     }
+
+    @RequestMapping(value="/rep", method = RequestMethod.GET)
+    public String showRepPage(ModelMap model){
+        return "customerRep";
+    }
 }
