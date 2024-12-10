@@ -47,7 +47,7 @@
 <body>
 <div class="form-container">
     <h2>Search Trains</h2>
-        <form action="searchResults" method="post">   
+        <form action="/train-schedules/search" method="post">
         <div class="form-group">
             <label for="origin">Origin:</label>
             <select id="originDropdown" name="origin" required>

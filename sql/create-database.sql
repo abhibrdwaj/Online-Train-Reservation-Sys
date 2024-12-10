@@ -241,5 +241,5 @@ VALUES
 
 
 
-SELECT * FROM TrainStops;
+SELECT * FROM Schedules;
 
