@@ -30,6 +30,24 @@ public class DashboardService {
         return processChartData(results);
     }
 
+    public Map<String, Object> getActiveTransitLines() {
+        List<Object> results = analyticsRepositoryRepository.findTopActiveTransitLines();
+        return processChartData(results);
+    }
+
+    public Map<String, Object> getBestCustomer() {
+        Object[] result = (Object[]) analyticsRepositoryRepository.findBestCustomer();
+        Map<String, Object> response = new HashMap<>();
+        if (result != null) {
+            response.put("name", result[0] + " " + result[1]); // Full Name
+            response.put("revenue", ((Number) result[2]).doubleValue()); // Total Revenue
+        } else {
+            response.put("name", "N/A");
+            response.put("revenue", 0);
+        }
+        return response;
+    }
+
     private Map<String, Object> processChartData(List<Object> results) {
         Map<String, Object> chartData = new HashMap<>();
         List<String> labels = new ArrayList<>();

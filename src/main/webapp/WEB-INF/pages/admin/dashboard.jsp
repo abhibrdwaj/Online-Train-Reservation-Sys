@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -34,10 +35,31 @@
                 <h3>Revenue by Customer Name</h3>
                 <canvas id="customerRevenueChart" width="400" height="200"></canvas>
             </div>
+
+            <!-- Top 5 Most Active Transit Lines -->
+            <div class="col-md-6 mb-4">
+                <h3>Top 5 Most Active Transit Lines</h3>
+                <canvas id="activeTransitLinesChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Best Customer Stat Box -->
+            <div class="col-md-6 mb-4">
+                <h3>Best Customer</h3>
+                <div class="p-4 border rounded text-center bg-light">
+                    <h2 class="text-primary">
+                        <span id="bestCustomerName" class="me-2">John Doe</span>
+                        <i class="fas fa-star text-warning"></i>
+                    </h2>
+                    <p class="text-secondary">Total Revenue: $<span id="bestCustomerRevenue">0</span></p>
+                </div>
+            </div>
         </div>
     </div>
+
     <script>
-        // Fetch data from the server for the sales report
+        // Fetch and render Monthly Sales Report
         fetch('/admin/dashboard/salesReport')
             .then(response => response.json())
             .then(data => {
@@ -128,6 +150,43 @@
                 });
             })
             .catch(error => console.error('Error loading customer revenue:', error));
+
+        // Fetch and render Top 5 Most Active Transit Lines
+        fetch('/admin/dashboard/activeTransitLines')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('activeTransitLinesChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.labels, // Transit Line Names
+                        datasets: [{
+                            label: 'Reservations Count',
+                            data: data.values, // Reservations Count
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading active transit lines:', error));
+
+        // Fetch and render Best Customer
+        fetch('/admin/dashboard/bestCustomer')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('bestCustomerName').textContent = data.name;
+                document.getElementById('bestCustomerRevenue').textContent = data.revenue;
+            })
+            .catch(error => console.error('Error loading best customer:', error));
     </script>
 </body>
 </html>

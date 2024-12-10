@@ -40,4 +40,16 @@ public class DashboardController {
         return dashboardService.getRevenueByCustomerName();
     }
 
+    @GetMapping("/activeTransitLines")
+    @ResponseBody
+    public Map<String, Object> getActiveTransitLines() {
+        return dashboardService.getActiveTransitLines();
+    }
+
+    @GetMapping("/bestCustomer")
+    @ResponseBody
+    public Map<String, Object> getBestCustomer() {
+        return dashboardService.getBestCustomer();
+    }
+
 }

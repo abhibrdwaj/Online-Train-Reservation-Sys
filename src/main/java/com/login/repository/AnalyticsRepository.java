@@ -33,4 +33,25 @@ public interface AnalyticsRepository extends JpaRepository<Reservations, Long> {
             GROUP BY U.username
             """, nativeQuery = true)
     List<Object> findRevenueByCustomerName();
+
+    @Query(value = """
+            SELECT T.transit_line_name, COUNT(*) AS ReservationsCount
+            FROM Reservations R
+            JOIN Schedules S ON R.schedule_id = S.schedule_id
+            JOIN Trains T ON S.train_id = T.train_id
+            GROUP BY T.transit_line_name
+            ORDER BY ReservationsCount DESC
+            LIMIT 5
+            """, nativeQuery = true)
+    List<Object> findTopActiveTransitLines();
+
+    @Query(value = """
+            SELECT U.first_name, U.last_name, SUM(R.total_fare) AS TotalRevenue
+            FROM Reservations R
+            JOIN Users U ON R.customer = U.username
+            GROUP BY U.username
+            ORDER BY TotalRevenue DESC
+            LIMIT 1
+            """, nativeQuery = true)
+    Object findBestCustomer();
 }
