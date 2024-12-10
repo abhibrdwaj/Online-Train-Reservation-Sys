@@ -24,7 +24,7 @@
 
             <!-- Revenue by Transit Line -->
             <div class="col-md-6 mb-4">
-                <h3>Revenue by Transit Line</h3>
+                <h3>Most Profitable Lines</h3>
                 <canvas id="transitLineChart" width="400" height="200"></canvas>
             </div>
         </div>
@@ -32,13 +32,13 @@
         <div class="row">
             <!-- Revenue by Customer Name -->
             <div class="col-md-6 mb-4">
-                <h3>Revenue by Customer Name</h3>
+                <h3>Most Profitable Customers</h3>
                 <canvas id="customerRevenueChart" width="400" height="200"></canvas>
             </div>
 
             <!-- Top 5 Most Active Transit Lines -->
             <div class="col-md-6 mb-4">
-                <h3>Top 5 Most Active Transit Lines</h3>
+                <h3>Most Active Lines (Top 5 by Reservations)</h3>
                 <canvas id="activeTransitLinesChart" width="400" height="200"></canvas>
             </div>
         </div>
@@ -46,7 +46,7 @@
         <div class="row">
             <!-- Best Customer Stat Box -->
             <div class="col-md-6 mb-4">
-                <h3>Best Customer</h3>
+                <h3>Star Customer</h3>
                 <div class="p-4 border rounded text-center bg-light">
                     <h2 class="text-primary">
                         <span id="bestCustomerName" class="me-2">John Doe</span>
