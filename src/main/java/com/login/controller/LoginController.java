@@ -1,5 +1,6 @@
 package com.login.controller;
 
+import com.login.constants.TicketTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,8 +32,9 @@ public class LoginController {
         }
  
         model.addAttribute("user", user);
+        model.addAttribute("ticketTypes", TicketTypes.values());
  
-        return "logout";
+        return "make_reservation";
     }
      
     @RequestMapping(value="/logout", method = RequestMethod.GET)
