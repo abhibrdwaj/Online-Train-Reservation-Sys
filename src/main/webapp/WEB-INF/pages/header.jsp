@@ -47,7 +47,7 @@
 <body>
 <div class="header">
     <div class="logo">
-        <a href="/admin/dashboard" target="_blank">
+        <a href="/home" target="_blank">
             <img src="../images/trainline-logo.png" alt="Trainline Logo" class="logo">
         </a>
     </div>
@@ -55,7 +55,7 @@
         <c:choose>
             <c:when test="${role == 'ADMIN'}">
                 <a href="/admin/dashboard">Dashboard</a>
-                <a href="/admin/manage_rep">Manage Reps</a>
+                <a href="/admin/manage_rep">Employees</a>
                 <a href="/login">Logout </a>
             </c:when>
             <c:when test="${role == 'CUSTOMER'}">
