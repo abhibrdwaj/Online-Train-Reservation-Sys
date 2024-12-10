@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,9 +50,22 @@
         <img src="../images/trainline-logo.png" alt="Trainline Logo" class="logo">
     </div>
     <div class="nav-links">
-        <a href="/admin/dashboard">Dashboard</a>
-        <a href="/admin/manage_rep">Manage Reps</a>
-        <a href="/login">Logout </a>
+        <c:choose>
+            <c:when test="${role == 'ADMIN'}">
+                <a href="/admin/dashboard">Dashboard</a>
+                <a href="/admin/manage_rep">Manage Reps</a>
+                <a href="/login">Logout </a>
+            </c:when>
+            <c:when test="${role == 'CUSTOMER'}">
+                <a href="/user/home">Home</a>
+                <a href="/user/my_bookings">My Bookings</a>
+                <a href="/user/support">Support</a>
+                <a href="/login">Logout </a>
+            </c:when>
+            <c:otherwise>
+                <a href="/login">Login</a>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 </body>
