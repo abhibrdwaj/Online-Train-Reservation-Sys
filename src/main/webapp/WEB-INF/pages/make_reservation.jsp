@@ -87,7 +87,10 @@
             <label for="seniors">Number of Senior Citizens:</label>
             <input type="number" id="seniors" name="seniors" value="0" min="0">
         </div>
-
+        <div class="form-group">
+            <label for="disabled">Disabled:</label>
+            <input type="number" id="disabled" name="disabled" value="0" min="0">
+        </div>
         <div class="form-group">
             <button type="submit" value="search">Search Trains</button>
         </div>

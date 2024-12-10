@@ -3,9 +3,7 @@ package com.login.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import com.login.service.TrainScheduleService;
@@ -13,6 +11,7 @@ import com.login.service.TrainScheduleService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +32,8 @@ public class TrainScheduleController {
             @RequestParam("adults") int adults,
             @RequestParam("children") int children,
             @RequestParam("seniors") int seniors,
+            @RequestParam("disabled") int disabled,
+            @RequestParam(value = "sortBy", required = false) String sortBy,
             Model model
     ) {
         // Validate input
@@ -41,14 +42,18 @@ public class TrainScheduleController {
             return "search-form"; // Return to the form with an error message
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Map<String, Integer> passengerCounts = new HashMap<>();
+        passengerCounts.put("adults", adults);
+        passengerCounts.put("children", children);
+        passengerCounts.put("disabled", disabled);
+        passengerCounts.put("seniors", seniors);
 
         // Search train schedules for the given travel date and origin/destination
-        List<Object> outgoingTrains = trainScheduleService.findSchedulesBetweenStations(origin, destination, travelDate.format(formatter));
-
-        model.addAttribute("origin", origin);
-        model.addAttribute("destination", destination);
-        model.addAttribute("tripType", tripType);
+        List<Map<String, Object>> outgoingTrains = trainScheduleService.findSchedulesBetweenStations(origin, destination, passengerCounts);
+        if (sortBy != null) {
+            // Sort outgoing trains based on the criteria
+            trainScheduleService.sortSchedules(outgoingTrains, sortBy);
+        }
 
         model.addAttribute("outgoingTrains", outgoingTrains);
         model.addAttribute("travelDate", travelDate);
@@ -56,7 +61,11 @@ public class TrainScheduleController {
 
         // Handle return trip schedules if it's a round trip
         if (tripType.equals("round-trip")) {
-            List<Object> returnTrains = trainScheduleService.findSchedulesBetweenStations(destination, origin, returnDate.format(formatter));
+            List<Map<String, Object>> returnTrains = trainScheduleService.findSchedulesBetweenStations(destination, origin, passengerCounts);
+            if (sortBy != null) {
+                // Sort return trains based on the criteria
+                trainScheduleService.sortSchedules(returnTrains, sortBy);
+            }
             model.addAttribute("returnTrains", returnTrains);
             model.addAttribute("returnDate", returnDate);
         }
@@ -65,6 +74,9 @@ public class TrainScheduleController {
         model.addAttribute("adults", adults);
         model.addAttribute("children", children);
         model.addAttribute("seniors", seniors);
+        model.addAttribute("disabled", disabled);
         return "search_results"; // JSP to display results
     }
+
+
 }

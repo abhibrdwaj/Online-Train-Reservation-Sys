@@ -5,7 +5,10 @@ import com.login.repository.TrainScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class TrainScheduleService {
@@ -16,7 +19,7 @@ public class TrainScheduleService {
     @Autowired
     private StationRepository stationRepository;
 
-    public List<Object> findSchedulesBetweenStations(String originStationName, String destinationStationName, String travelDate) {
+    public List<Map<String, Object>> findSchedulesBetweenStations(String originStationName, String destinationStationName, Map<String, Integer> passengerCounts) {
         // Lookup station IDs
         Integer originStationId = stationRepository.findStationIdByStationName(originStationName);
         Integer destinationStationId = stationRepository.findStationIdByStationName(destinationStationName);
@@ -26,6 +29,60 @@ public class TrainScheduleService {
         }
 
         // Fetch schedules based on station IDs
-        return trainScheduleRepository.findSchedulesBetweenStations(originStationId, destinationStationId);
+        List<Object> results = trainScheduleRepository.findSchedulesBetweenStations(originStationId, destinationStationId);
+        List<Map<String, Object>> scheduleDetails = new ArrayList<>();
+
+        int adults = passengerCounts.getOrDefault("adults", 0);
+        int children = passengerCounts.getOrDefault("children", 0);
+        int disabled = passengerCounts.getOrDefault("disabled", 0);
+        int seniors = passengerCounts.getOrDefault("seniors", 0);
+
+        for (Object result : results) {
+            Object[] row = (Object[]) result;
+            Map<String, Object> schedule = new HashMap<>();
+            schedule.put("scheduleId", row[0]);
+            schedule.put("trainId", row[1]);
+            schedule.put("departureDatetime", row[2]);
+            schedule.put("arrivalDatetime", row[3]);
+            schedule.put("travelTime", row[4]);
+            schedule.put("transitLine", row[5]);
+            schedule.put("stops", ((String) row[6]).split(",")); // Split stops into an array
+
+            double baseFare = ((BigDecimal) row[7]).doubleValue();
+
+            double totalFare = 0.0;
+            totalFare += adults * baseFare;            // Adults pay full fare
+            totalFare += children * baseFare * 0.75;  // Children get a 25% discount
+            totalFare += seniors * baseFare * 0.65;   // Seniors get a 35% discount
+            totalFare += disabled * baseFare * 0.50;
+
+            schedule.put("fare", Math.round(totalFare * 100.0) / 100.0); // Round to 2 decimal places
+            scheduleDetails.add(schedule);
+        }
+
+        return scheduleDetails;
+    }
+
+
+    public void sortSchedules(List<Map<String, Object>> trains, String sortBy) {
+        if (sortBy != null) {
+            switch (sortBy) {
+                case "departureDatetime":
+                    trains.sort(Comparator.comparing(train -> (LocalDateTime) train.get("departureDatetime")));
+                    break;
+                case "arrivalDatetime":
+                    trains.sort(Comparator.comparing(train -> (LocalDateTime) train.get("arrivalDatetime")));
+                    break;
+                case "travelTime":
+                    trains.sort(Comparator.comparing(train -> (Duration) train.get("travelTime")));
+                    break;
+                case "fare":
+                    trains.sort(Comparator.comparing(train -> (Double) train.get("fare")));
+                    break;
+                default:
+                    // Handle default sorting if needed
+                    break;
+            }
+        }
     }
 }

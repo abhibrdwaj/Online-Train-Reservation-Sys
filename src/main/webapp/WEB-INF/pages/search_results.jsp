@@ -92,6 +92,16 @@
 <body>
 <div class="container">
     <h2>Search Results</h2>
+    <form action="/train-schedules/search" method="post">
+        <!-- Existing search form fields -->
+        <select name="sortBy">
+            <option value="departureDatetime">Departure Date</option>
+            <option value="arrivalDatetime">Arrival Date</option>
+            <option value="travelTime">Travel Time</option>
+            <option value="fare">Fare</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
 
     <form action="booking/confirm" method="post">
         <div class="results-section">
@@ -106,13 +116,22 @@
                         </c:if>
 
 
-                        <c:forEach var="train" items="${outgoingTrains}">
+                        <c:forEach var="schedule" items="${outgoingTrains}">
                             <div class="schedule-box">
                                 <div class="schedule-details">
-                                    <p><strong>Train #:</strong> ${train[0]}</p>
-                                    <p><strong>Departure:</strong> ${train[1]}</p>
-                                    <p><strong>Arrival:</strong> ${train[2]}</p>
-                                    <p><strong>Travel Time:</strong> ${train[3]}</p>
+                                    <p><strong>Train #:</strong> <span class="train-id">${schedule.trainId}</span></p>
+                                    <p><strong>Departure:</strong> <span class="departure-time">${schedule.departureDatetime}</span></p>
+                                    <p><strong>Arrival:</strong> <span class="arrival-time">${schedule.arrivalDatetime}</span></p>
+                                    <p><strong>Travel Time:</strong> <span class="travel-time">${schedule.travelTime}</span></p>
+                                    <p><strong>Transit Line:</strong> <span class="transit-line">${schedule.transitLine}</span></p>
+
+                                    <p class="stop"><strong>Stops:</strong>
+                                        <c:forEach var="stop" items="${schedule.stops}">
+                                            ${stop}<c:if test="${not empty stop}">, </c:if>
+                                        </c:forEach>
+                                    </p>
+
+                                    <p><strong>Fare (in USD):</strong> <span class="fare">${schedule.fare}</span></p>
                                 </div>
                                 <div class="schedule-action">
                                     <input type="checkbox" name="selectedSchedules" value="">
