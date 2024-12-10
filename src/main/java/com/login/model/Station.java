@@ -10,28 +10,28 @@ import jakarta.persistence.Table;
 public class Station {
     @Id
     @Column(name = "station_id")
-    private int station_id;
+    private int stationId;
     @Column(name = "station_name", length = 100)
-    private String station_name;
+    private String stationName;
     @Column(name = "city", length = 100)
     private String city;
     @Column(name = "state", length = 100)
     private String state;
 
-    public int getStation_id() {
-        return this.station_id;
+    public int getStationId() {
+        return this.stationId;
     }
 
-    public void setStation_id(int station_id) {
-        this.station_id = station_id;
+    public void setStationId(int station_id) {
+        this.stationId = stationId;
     }
 
-    public String getStation_name() {
-        return this.station_name;
+    public String getStationName() {
+        return this.stationName;
     }
 
-    public void setStation_name(String station_name) {
-        this.station_name = station_name;
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
     }
 
     public String getCity() {

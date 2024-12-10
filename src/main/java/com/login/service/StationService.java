@@ -12,8 +12,8 @@ public class StationService {
     @Autowired
     private StationRepository stationRepository;
 
-    public List<String> getAllStationNames(){
-        return stationRepository.findAllStationNames();
+    public List<String> getAllStations(){
+        return stationRepository.findAllByOrderByNameAsc();
     }
     
 }
