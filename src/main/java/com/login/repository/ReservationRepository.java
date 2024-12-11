@@ -36,4 +36,9 @@ public interface ReservationRepository extends JpaRepository<Reservations, Long>
           FROM Reservations
           """, nativeQuery = true)
     Page<Reservations> findAllPageable(Pageable pageable);
+
+    // Fetch all reservations for a specific customer
+    List<Reservations> findByCustomerOrderByOngoingDateDesc(String username);
+
+    void deleteByReservationNo(int reservationId);
 }

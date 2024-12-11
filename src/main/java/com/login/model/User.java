@@ -102,7 +102,3 @@ public class User implements Serializable {
 		this.socialSecurityNumber = socialSecurityNumber;
 	}
 }
-
-
-    
-}

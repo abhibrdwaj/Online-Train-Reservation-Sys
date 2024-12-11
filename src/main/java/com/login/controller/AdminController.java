@@ -108,7 +108,7 @@ public class AdminController {
         response.setHeader("Content-Disposition", "attachment; filename=reservations.csv");
 
         try (CSVWriter writer = new CSVWriter(response.getWriter())) {
-            String[] header = {"Reservation No", "Customer", "Reservation Date", "Origin Station", "Destination Station", "Schedule ID", "Total Fare", "Round Trip"};
+            String[] header = {"Reservation No", "Customer", "Reservation Date", "Origin Station", "Destination Station", "Total Fare", "Round Trip"};
             writer.writeNext(header);
             for (Reservations reservation : reservations) {
                 String[] data = {
@@ -117,9 +117,8 @@ public class AdminController {
                         reservation.getReservationDate().toString(),
                         String.valueOf(reservation.getOriginStationId()),
                         String.valueOf(reservation.getDestinationStationId()),
-                        String.valueOf(reservation.getScheduleId()),
                         String.valueOf(reservation.getTotalFare()),
-                        reservation.getRoundTrip() ? "Yes" : "No"
+                        reservation.isRoundTrip() ? "Yes" : "No"
                 };
                 writer.writeNext(data);
             }

@@ -7,8 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -37,5 +40,36 @@ public class ReservationService {
     // Get all reservations wo pagination
     public List<Reservations> getAllReservations() {
         return reservationRepository.findAll();
+    }
+
+    public void saveReservation(Reservations reservation) {
+        reservationRepository.save(reservation);
+    }
+
+    // Fetch all reservations for a specific customer and split them by OngoingDate
+    public void getReservationsByCustomer(String username, Model model) {
+        // Get all reservations
+        List<Reservations> allReservations = reservationRepository.findByCustomerOrderByOngoingDateDesc(username);
+
+        // Get today's date for comparison
+        LocalDate today = LocalDate.now();
+
+        // Split the reservations into current and past
+        List<Reservations> currentReservations = allReservations.stream()
+                .filter(reservation -> reservation.getOngoingDate().isAfter(today) || reservation.getOngoingDate().isEqual(today))
+                .collect(Collectors.toList());
+
+        List<Reservations> pastReservations = allReservations.stream()
+                .filter(reservation -> reservation.getOngoingDate().isBefore(today))
+                .collect(Collectors.toList());
+
+        // Add them to the model
+        model.addAttribute("currentReservations", currentReservations);
+        model.addAttribute("pastReservations", pastReservations);
+    }
+
+    // Method to delete a reservation
+    public void cancelReservation(int reservationId) {
+        reservationRepository.deleteByReservationNo(reservationId);
     }
 }

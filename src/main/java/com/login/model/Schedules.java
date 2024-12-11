@@ -1,28 +1,85 @@
 package com.login.model;
 
 import jakarta.persistence.*;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
-@Table(name = "schedules")
+@Table(name = "Schedules")
 public class Schedules {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int scheduleId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment for schedule_id
+    private Integer scheduleId;
 
-    @Column(name = "train_id", nullable = false)
-    private int trainId;
+    @Column(nullable = false)
+    private Integer trainId;
 
-    @Column(name = "departure_datetime", nullable = false)
-    private LocalDateTime departureDatetime;
+    @Column(nullable = false)
+    private LocalTime departureTime;
 
-    @Column(name = "arrival_datetime", nullable = false)
-    private LocalDateTime arrivalDatetime;
+    @Column(nullable = false)
+    private LocalTime arrivalTime;
 
-    @Column(name = "travel_time", nullable = false)
-    private Duration travelTime;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Direction direction;
 
-    // Getters, Setters, and any additional methods
+    // Enum for Direction
+    public enum Direction {
+        FORWARD,
+        REVERSE
+    }
+
+    // Getters and Setters
+    public Integer getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(Integer scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    public Integer getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(Integer trainId) {
+        this.trainId = trainId;
+    }
+
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(LocalTime departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    // Optional: toString for debugging
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "scheduleId=" + scheduleId +
+                ", trainId=" + trainId +
+                ", departureTime=" + departureTime +
+                ", arrivalTime=" + arrivalTime +
+                ", direction=" + direction +
+                '}';
+    }
 }

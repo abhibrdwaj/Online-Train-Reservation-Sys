@@ -15,9 +15,9 @@ public interface TrainScheduleRepository extends JpaRepository<Schedules, Intege
        SELECT
            s.schedule_id AS scheduleId,
            s.train_id AS trainId,
-           TIME(ts1.departure_datetime) AS departureTime,
-           TIME(ts2.arrival_datetime) AS arrivalTime,
-           ABS(TIMESTAMPDIFF(MINUTE, ts1.departure_datetime, ts2.arrival_datetime)) AS duration,
+           ts1.departure_time AS departureTime,
+           ts2.arrival_time AS arrivalTime,
+           TIMEDIFF(ts2.arrival_time, ts1.departure_time) AS duration,
            t.name AS transitLine,
        
            GROUP_CONCAT(
