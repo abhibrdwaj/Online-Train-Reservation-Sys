@@ -2,13 +2,13 @@ CREATE DATABASE RailwayBookingSystem;
 Use RailwayBookingSystem;
 
 -- Drop existing tables if they exist
-DROP TABLE IF EXISTS Stations;
-DROP TABLE IF EXISTS TransitLines;
-DROP TABLE IF EXISTS Trains;
-DROP TABLE IF EXISTS Schedules;
-DROP TABLE IF EXISTS Reservations;
 DROP TABLE IF EXISTS TrainStops;
+DROP TABLE IF EXISTS Reservations;
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Schedules;
+DROP TABLE IF EXISTS Trains;
+DROP TABLE IF EXISTS TransitLines;
+DROP TABLE IF EXISTS Stations;
 
 CREATE TABLE Stations (
     station_id INT PRIMARY KEY,
@@ -40,6 +40,7 @@ CREATE TABLE Schedules (
     departure_datetime DATETIME NOT NULL,
     arrival_datetime DATETIME NOT NULL,
     travel_time TIME NOT NULL,
+    direction ENUM('Forward', 'Reverse') NOT NULL,
     PRIMARY KEY (train_id, departure_datetime),
     FOREIGN KEY (train_id) REFERENCES Trains(train_id)
 );
@@ -63,9 +64,10 @@ CREATE TABLE Users (
     password VARCHAR(255) NOT NULL,
     email_address VARCHAR(100) UNIQUE,
     social_security_number VARCHAR(11) UNIQUE,
-    role VARCHAR(100) NOT NULL -- ('CUSTOMER', 'ADMIN', 'CUSTOMER REP')
+    role ENUM('ADMIN', 'CUSTOMER', 'CUSTOMER_REP') NOT NULL -- Changed column
 );
 
+-- Added new columns below
 -- Reservation Data Tables
 CREATE TABLE Reservations (
     reservation_no INT PRIMARY KEY,
@@ -73,14 +75,16 @@ CREATE TABLE Reservations (
     reservation_date DATE NOT NULL,
     origin_station_id INT,
     destination_station_id INT,
-    schedule_id INT,
-    departure_datetime DATETIME NOT NULL,
+    ongoing_schedule_id INT,
+    return_schedule_id INT, -- New Column
     total_fare DECIMAL(10, 2) NOT NULL,
-    is_round_trip BOOLEAN NOT NULL,
+    is_round_trip BOOLEAN DEFAULT 0,
+    ticket_details JSON,
     FOREIGN KEY (customer) REFERENCES Users(username),
     FOREIGN KEY (origin_station_id) REFERENCES Stations(station_id),
     FOREIGN KEY (destination_station_id) REFERENCES Stations(station_id),
-    FOREIGN KEY (schedule_id) REFERENCES Schedules(schedule_id)
+    FOREIGN KEY (ongoing_schedule_id) REFERENCES Schedules(schedule_id),
+    FOREIGN KEY (return_schedule_id) REFERENCES Schedules(schedule_id)
 );
 
 -- Forum and Customer Service Tables (Coming Soon)
@@ -245,6 +249,21 @@ VALUES
     (10, 8, '2024-12-11 00:30:00', '2024-12-11 00:35:00', 3); -- New York Penn
 
 
+# INSERT INTO Reservations (reservation_no, customer, reservation_date, origin_station_id, destination_station_id, ongoing_schedule_id, return_schedule_id, total_fare, is_round_trip, ticket_details)
+# VALUES
+#     (4, 'john_doe', '2024-01-10', 1, 2, 101, , 50.00, FALSE),
+#     (5, 'jane_smith', '2024-01-15', 2, 3, 102, '2024-01-15 07:30:00', 45.00, TRUE),
+#     (6, 'customer', '2024-02-05', 3, 4, 103, '2024-02-05 10:00:00', 60.00, FALSE),
+#     (7, 'jane_smith', '2024-02-20', 4, 5, 101, '2024-02-20 11:00:00', 40.00, TRUE),
+#     (8, 'john_doe', '2024-03-01', 1, 3, 102, '2024-03-01 13:00:00', 75.00, FALSE),
+#     (9, 'customer', '2024-03-15', 3, 5, 103, '2024-03-15 14:30:00', 65.00, TRUE),
+#     (10, 'jane_smith', '2024-03-25', 2, 4, 101, '2024-03-25 18:00:00', 55.00, FALSE),
+#     (11, 'john_doe', '2024-01-20', 4, 1, 102, '2024-01-20 22:00:00', 50.00, TRUE);
 
-SELECT * FROM Schedules;
+
+
+SELECT * FROM Reservations;
+
+
+
 
