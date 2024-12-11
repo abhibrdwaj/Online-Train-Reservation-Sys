@@ -85,7 +85,7 @@ CREATE TABLE Reservations (
     FOREIGN KEY (destination_station_id) REFERENCES Stations(station_id),
     FOREIGN KEY (ongoing_schedule_id) REFERENCES Schedules(schedule_id),
     FOREIGN KEY (return_schedule_id) REFERENCES Schedules(schedule_id)
-) AUTO_INCREMENT = 100;;
+) AUTO_INCREMENT = 100;
 
 -- Forum and Customer Service Tables (Coming Soon)
 -- CREATE TABLE Questions (

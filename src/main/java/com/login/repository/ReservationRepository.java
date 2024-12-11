@@ -37,8 +37,26 @@ public interface ReservationRepository extends JpaRepository<Reservations, Long>
           """, nativeQuery = true)
     Page<Reservations> findAllPageable(Pageable pageable);
 
-    // Fetch all reservations for a specific customer
-    List<Reservations> findByCustomerOrderByOngoingDateDesc(String username);
+    @Query(value = """
+        SELECT
+            r.reservation_no AS "reservation_no",
+            os.station_name AS "origin",
+            ds.station_name AS "destination",
+            r.ongoing_date AS "travel_date",
+            r.return_date AS "return_date",
+            r.total_fare AS "total_fare"
+        FROM
+            Reservations r
+        JOIN
+            Stations os ON r.origin_station_id = os.station_id
+        JOIN
+            Stations ds ON r.destination_station_id = ds.station_id
+        WHERE
+            r.customer = :customer
+        ORDER BY
+            r.ongoing_date DESC
+        """, nativeQuery = true)
+    List<Object> findByCustomers(String customer);
 
     void deleteByReservationNo(int reservationId);
 }

@@ -70,16 +70,6 @@
     </style>
 </head>
 <body>
-<c:if test="${not empty message}">
-    <div class="alert alert-success">
-            ${message}
-    </div>
-</c:if>
-<c:if test="${not empty error}">
-    <div class="alert alert-danger">
-            ${error}
-    </div>
-</c:if>
 
 <div class="container">
     <div class="header">
@@ -103,7 +93,6 @@
                 <th>Travel Date</th>
                 <th>Return Date</th>
                 <th>Total Fare</th>
-                <th>Status</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -111,25 +100,14 @@
             <c:forEach var="reservation" items="${currentReservations}">
                 <tr id="reservation-${reservation.reservationNo}">
                     <td>${reservation.reservationNo}</td>
-                    <td>${reservation.originStationId}</td>
-                    <td>${reservation.destinationStationId}</td>
-                    <td>${reservation.ongoingDate}</td>
+                    <td>${reservation.origin}</td>
+                    <td>${reservation.destination}</td>
+                    <td>${reservation.travelDate}</td>
                     <td>${reservation.returnDate != null ? reservation.returnDate : "N/A"}</td>
                     <td>${reservation.totalFare}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${reservation.isCanceled == true}">
-                                <span style="color: red;">Canceled</span>
-                            </c:when>
-                            <c:otherwise>
-                                <span style="color: green;">Active</span>
-                            </c:otherwise>
-                        </c:choose>
+                    <td class="actions">
+                        <button class="cancel-btn" onclick="cancelReservation(${reservation.reservationNo})">Cancel</button>
                     </td>
-                    <form action="/user/cancelReservation" method="post">
-                        <input type="hidden" name="reservationId" value="${reservation.reservationNo}" />
-                        <button type="submit" onclick="return confirm('Are you sure you want to cancel this reservation?')">Cancel Reservation</button>
-                    </form>
                 </tr>
             </c:forEach>
             </tbody>
@@ -148,21 +126,17 @@
                 <th>Travel Date</th>
                 <th>Return Date</th>
                 <th>Total Fare</th>
-                <th>Status</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="reservation" items="${pastReservations}">
                 <tr id="reservation-${reservation.reservationNo}">
                     <td>${reservation.reservationNo}</td>
-                    <td>${reservation.originStationId}</td>
-                    <td>${reservation.destinationStationId}</td>
-                    <td>${reservation.ongoingDate}</td>
+                    <td>${reservation.origin}</td>
+                    <td>${reservation.destination}</td>
+                    <td>${reservation.travelDate}</td>
                     <td>${reservation.returnDate != null ? reservation.returnDate : "N/A"}</td>
                     <td>${reservation.totalFare}</td>
-                    <td>
-                        <span style="color: red;">Completed</span>
-                    </td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -195,7 +169,6 @@
     function cancelReservation(reservationNo) {
         const confirmation = confirm("Are you sure you want to cancel this reservation?");
         if (confirmation) {
-            // Redirect to cancel URL with reservation number
             location.href = '/user/cancelReservation/' + reservationNo;
         }
     }

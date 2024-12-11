@@ -24,20 +24,15 @@ public class UserController {
     }
 
     @GetMapping("/my_bookings")
-    public String showMyBookings(ModelMap model) {
-        return "user/my_bookings";
-    }
-
-    @GetMapping("/my-bookings")
     public String viewBookings(HttpSession session, Model model) {
         String customer = session.getAttribute("username").toString();
         reservationService.getReservationsByCustomer(customer, model);
-        return "user/my-bookings";
+        return "user/my_bookings";
     }
 
     // Method to cancel a reservation
-    @PostMapping("/cancelReservation/")
-    public String cancelReservation(@RequestParam("reservationId") int reservationId, RedirectAttributes redirectAttributes) {
+    @GetMapping("/cancelReservation/{reservationId}")
+    public String cancelReservation(@PathVariable int reservationId, RedirectAttributes redirectAttributes) {
         try {
             // Cancel the reservation using the service
             reservationService.cancelReservation(reservationId);
@@ -46,6 +41,6 @@ public class UserController {
             redirectAttributes.addFlashAttribute("error", "Failed to cancel the reservation.");
         }
         // Redirect to the manage bookings page after cancellation
-        return "redirect:/user/my-bookings";
+        return "redirect:/user/my_bookings";
     }
 }
