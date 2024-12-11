@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.login.model.User;
 import com.login.repository.UserRepository;
-import com.login.constants.Roles;
+import com.login.constants.Role;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public User registerNewUser(User user) {
-        user.setRole(Roles.CUSTOMER);
+        user.setRole(Role.CUSTOMER);
         return userRepository.save(user);
     }
 }

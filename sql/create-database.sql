@@ -262,7 +262,9 @@ VALUES
 
 
 
-SELECT * FROM Reservations;
+SELECT * FROM Users;
+
+UPDATE Users SET role = 'ADMIN' WHERE username = 'customer1';
 
 
 
