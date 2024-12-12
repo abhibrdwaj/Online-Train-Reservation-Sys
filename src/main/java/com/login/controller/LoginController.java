@@ -48,6 +48,8 @@ public class LoginController {
 
         if (Role.ADMIN == role) {
             return "redirect:/admin/dashboard";
+        } else if (Role.CUSTOMER_REP == role) {
+            return "redirect:/rep";
         } else {
             return "redirect:/user/home";
         }
@@ -56,5 +58,10 @@ public class LoginController {
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String showLogoutPage(ModelMap model){
         return "login";
+    }
+
+    @RequestMapping(value="/rep", method = RequestMethod.GET)
+    public String showRepPage(ModelMap model){
+        return "customerRep";
     }
 }

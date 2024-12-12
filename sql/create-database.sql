@@ -9,6 +9,8 @@ DROP TABLE IF EXISTS Schedules;
 DROP TABLE IF EXISTS Trains;
 DROP TABLE IF EXISTS TransitLines;
 DROP TABLE IF EXISTS Stations;
+DROP TABLE IF EXISTS Answers;
+DROP TABLE IF EXISTS Questions;
 
 CREATE TABLE Stations (
     station_id INT PRIMARY KEY,
@@ -51,7 +53,7 @@ CREATE TABLE TrainStops (
     departure_time TIME,
     stop_number INT NOT NULL,
     PRIMARY KEY (schedule_id, station_id),
-    FOREIGN KEY (schedule_id) REFERENCES Schedules(schedule_id),
+    FOREIGN KEY (schedule_id) REFERENCES Schedules(schedule_id) ON DELETE CASCADE,
     FOREIGN KEY (station_id) REFERENCES Stations(station_id)
 );
 
@@ -83,32 +85,33 @@ CREATE TABLE Reservations (
     FOREIGN KEY (customer) REFERENCES Users(username),
     FOREIGN KEY (origin_station_id) REFERENCES Stations(station_id),
     FOREIGN KEY (destination_station_id) REFERENCES Stations(station_id),
-    FOREIGN KEY (ongoing_schedule_id) REFERENCES Schedules(schedule_id),
-    FOREIGN KEY (return_schedule_id) REFERENCES Schedules(schedule_id)
+    FOREIGN KEY (ongoing_schedule_id) REFERENCES Schedules(schedule_id) ON DELETE CASCADE,
+    FOREIGN KEY (return_schedule_id) REFERENCES Schedules(schedule_id) ON DELETE CASCADE
 ) AUTO_INCREMENT = 100;
 
--- Forum and Customer Service Tables (Coming Soon)
--- CREATE TABLE Questions (
---     question_id INT PRIMARY KEY,
---     username INT,
---     question_text TEXT NOT NULL,
---     timestamp DATETIME NOT NULL,
---     FOREIGN KEY (username) REFERENCES Users(username)
--- );
+-- Forum and Customer Service Tables
+CREATE TABLE Questions (
+   question_id INT PRIMARY KEY AUTO_INCREMENT,
+   username VARCHAR(100),
+   question_text TEXT NOT NULL,
+   timestamp DATETIME NOT NULL,
+   FOREIGN KEY (username) REFERENCES Users(username)
+) AUTO_INCREMENT = 100;
 
--- CREATE TABLE Answers (
---     answer_id INT PRIMARY KEY,
---     question_id INT,
---     employee_id INT,
---     answer_text TEXT NOT NULL,
---     timestamp DATETIME NOT NULL,
---     FOREIGN KEY (question_id) REFERENCES Questions(question_id),
---     FOREIGN KEY (employee_id) REFERENCES Employees(employee_id)
--- );
+CREATE TABLE Answers (
+     question_id INT PRIMARY KEY,
+     username VARCHAR(100),
+     answer_text TEXT NOT NULL,
+     timestamp DATETIME NOT NULL,
+     FOREIGN KEY (question_id) REFERENCES Questions(question_id),
+     FOREIGN KEY (username) REFERENCES Users(username)
+);
+
+INSERT INTO Questions (username, question_text, timestamp) VALUES ('customer2', 'How to jump?', '2023-12-11 15:30:25');
 
 
 -- INSERT User data
-SELECT * FROM TransitLines;
+SELECT * FROM Questions;
 
 INSERT into Users (last_name, first_name, username, password, email_address, role)
 VALUES
@@ -216,9 +219,11 @@ VALUES
 
 
 
-SELECT * FROM Reservations;
+SELECT * FROM Schedules;
 SELECT * FROM Users;
 SELECT * FROM Stations;
+
+
 
 
 UPDATE Users SET role = 'ADMIN' WHERE username = 'customer1';

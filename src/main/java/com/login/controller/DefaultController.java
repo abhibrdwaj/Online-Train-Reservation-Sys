@@ -25,6 +25,8 @@ public class DefaultController {
             return "redirect:/admin/dashboard";
         } else if ("USER".equalsIgnoreCase(role)) {
             return "redirect:/user/home";
+        } else if ("CUSTOMER_REP".equalsIgnoreCase(role)) {
+        return "redirect:/rep";
         } else {
             return "redirect:/login";
         }

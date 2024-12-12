@@ -20,17 +20,14 @@ public class Schedules {
     @Column(nullable = false)
     private LocalTime arrivalTime;
 
-    @Column(nullable = false)
-    private LocalTime travelTime;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Direction direction;
 
     // Enum for Direction
     public enum Direction {
-        FORWARD,
-        REVERSE
+        Forward,
+        Reverse
     }
 
     // Getters and Setters
