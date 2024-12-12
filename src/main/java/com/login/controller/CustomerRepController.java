@@ -91,7 +91,7 @@ public class CustomerRepController {
         if (customerRepService.getScheduleById(id) == null) {
             return ResponseEntity.notFound().build();
         }
-        schedule.setSchedule_id(id);
+        schedule.setScheduleId(id);
         return ResponseEntity.ok(customerRepService.updateSchedule(schedule));
     }
 

@@ -85,11 +85,11 @@
             
             schedules.forEach(function(schedule) {
                 tableHtml += '<tr>';
-                tableHtml += '<td>' + schedule.schedule_id + '</td>';
-                tableHtml += '<td>' + schedule.train_id + '</td>';
-                tableHtml += '<td>' + schedule.departure_datetime + '</td>';
-                tableHtml += '<td>' + schedule.arrival_datetime + '</td>';
-                tableHtml += '<td>' + schedule.travel_time + '</td>';
+                tableHtml += '<td>' + schedule.scheduleId + '</td>';
+                tableHtml += '<td>' + schedule.trainId + '</td>';
+                tableHtml += '<td>' + schedule.departureTime + '</td>';
+                tableHtml += '<td>' + schedule.arrivalTime + '</td>';
+                tableHtml += '<td>' + schedule.direction + '</td>';
                 tableHtml += '</tr>';
             });
             

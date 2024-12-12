@@ -48,6 +48,8 @@ public class LoginController {
 
         if (Role.ADMIN == role) {
             return "redirect:/admin/dashboard";
+        } else if (Role.CUSTOMER_REP == role) {
+            return "redirect:/rep";
         } else {
             return "redirect:/user/home";
         }
