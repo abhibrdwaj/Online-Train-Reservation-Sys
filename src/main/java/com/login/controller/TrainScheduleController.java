@@ -6,6 +6,7 @@ import com.login.service.ReservationService;
 import com.login.service.StationService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -47,8 +48,8 @@ public class TrainScheduleController {
             @RequestParam("seniors") int seniors,
             @RequestParam("disabled") int disabled,
             @RequestParam(value = "sortBy", required = false) String sortBy,
-            Model model
-    ) {
+            Model model,
+            Sort sort) {
         // Validate input
         if (tripType.equals("round-trip") && (returnDate == null || returnDate.isBefore(travelDate))) {
             model.addAttribute("errorMessage", "Invalid return date for round-trip.");
@@ -66,6 +67,7 @@ public class TrainScheduleController {
         if (sortBy != null) {
             // Sort outgoing trains based on the criteria
             trainScheduleService.sortSchedules(outgoingTrains, sortBy);
+            model.addAttribute("sortBy", sortBy);
         }
 
         model.addAttribute("outgoingTrains", outgoingTrains);

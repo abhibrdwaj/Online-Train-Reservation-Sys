@@ -78,12 +78,12 @@ public class AdminController {
                                   @RequestParam(defaultValue = "1") int page,
                                   Model model) {
         int pageSize = 10;
-        Page<Reservations> reservations;
+        Page<Object> reservations;
         long totalReservations;
 
-        if (firstName != null && lastName != null) {
+        if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()) {
             reservations = reservationService.findByCustomerName(firstName, lastName, page, pageSize);
-        } else if (transitLineName != null) {
+        } else if (transitLineName != null && !transitLineName.isEmpty()) {
             reservations = reservationService.findByTransitLine(transitLineName, page, pageSize);
         } else {
             reservations = reservationService.getAllReservationsPageable(page, pageSize);

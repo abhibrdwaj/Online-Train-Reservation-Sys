@@ -177,13 +177,25 @@
         <div>
             <label for="sortBy">Sort By:</label>
             <select name="sortBy" id="sortBy">
-                <option value="departureDatetime">Departure Time</option>
-                <option value="arrivalDatetime">Arrival Time</option>
-                <option value="travelTime">Travel Time</option>
-                <option value="fare">Fare</option>
+                <option value="departureTime" ${sortBy == 'departureTime' ? 'selected' : ''}>Departure Time</option>
+                <option value="arrivalTime" ${sortBy == 'arrivalTime' ? 'selected' : ''}>Arrival Time</option>
+                <option value="fare" ${sortBy == 'fare' ? 'selected' : ''}>Fare</option>
             </select>
         </div>
+        <input type="hidden" name="origin" id="origin1" value="${origin}">
+        <input type="hidden" name="destination" id="destination1" value="${destination}">
+        <input type="hidden" name="travelDate" id="travelDate1" value="${travelDate}">
+        <input type="hidden" name="returnDate" id="returnDate1" value="${returnDate}">
+        <input type="hidden" name="tripType" id="tripType1" value="${tripType}">
+        <input type="hidden" name="adults" id="adults" value="${adults}">
+        <input type="hidden" name="children" id="children" value="${children}">
+        <input type="hidden" name="seniors" id="seniors" value="${seniors}">
+        <input type="hidden" name="disabled" id="disabled" value="${disabled}">
+
+        <
+
         <button type="submit">Search</button>
+
     </form>
 
     <form action="/train-schedules/confirm-booking" method="post">
@@ -243,7 +255,6 @@
             </c:if>
         </div>
 
-        <!-- Hidden fields to store fares -->
         <input type="hidden" name="selectedOutgoingFare" id="selectedOutgoingFare">
         <input type="hidden" name="selectedReturnFare" id="selectedReturnFare">
         <input type="hidden" name="origin" id="origin" value="${origin}">

@@ -71,14 +71,17 @@ public class TrainScheduleService {
     public void sortSchedules(List<Map<String, Object>> trains, String sortBy) {
         if (sortBy != null) {
             switch (sortBy) {
-                case "departureDatetime":
-                    trains.sort(Comparator.comparing(train -> (LocalDateTime) train.get("departureDatetime")));
+                case "departureTime":
+                    trains.sort(Comparator.comparing(train -> {
+                        java.sql.Time departureTime = (java.sql.Time) train.get("departureTime");
+                        return departureTime.toLocalTime();
+                    }));
                     break;
-                case "arrivalDatetime":
-                    trains.sort(Comparator.comparing(train -> (LocalDateTime) train.get("arrivalDatetime")));
-                    break;
-                case "travelTime":
-                    trains.sort(Comparator.comparing(train -> (Duration) train.get("travelTime")));
+                case "arrivalTime":
+                    trains.sort(Comparator.comparing(train -> {
+                        java.sql.Time arrivalTime = (java.sql.Time) train.get("arrivalTime");
+                        return arrivalTime.toLocalTime();
+                    }));
                     break;
                 case "fare":
                     trains.sort(Comparator.comparing(train -> (Double) train.get("fare")));
@@ -89,4 +92,5 @@ public class TrainScheduleService {
             }
         }
     }
+
 }

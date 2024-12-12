@@ -24,19 +24,19 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
 
     // Find by customer name
-    public Page<Reservations> findByCustomerName(String firstName, String lastName, int page, int pageSize) {
+    public Page<Object> findByCustomerName(String firstName, String lastName, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page - 1, pageSize);  // Page is 0-indexed
         return reservationRepository.findByUserName(firstName, lastName, pageable);
     }
 
     // Get paginated reservations based on transit line name
-    public Page<Reservations> findByTransitLine(String transitLineName, int page, int pageSize) {
+    public Page<Object> findByTransitLine(String transitLineName, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page - 1, pageSize);  // Page is 0-indexed
         return reservationRepository.findByTransitLine(transitLineName, pageable);
     }
 
     // Get all reservations with pagination
-    public Page<Reservations> getAllReservationsPageable(int page, int pageSize) {
+    public Page<Object> getAllReservationsPageable(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page - 1, pageSize);  // Page is 0-indexed
         return reservationRepository.findAllPageable(pageable);
     }
