@@ -21,7 +21,6 @@ public interface AnalyticsRepository extends JpaRepository<Reservations, Long> {
             SELECT T.transit_line_name, SUM(R.total_fare) AS Revenue
             FROM Reservations R
             JOIN Schedules S1 ON R.ongoing_schedule_id = S1.schedule_id
-            JOIN Schedules S2 ON R.return_schedule_id = S2.schedule_id
             JOIN Trains T ON S1.train_id = T.train_id
             GROUP BY T.transit_line_name
             """, nativeQuery = true)
@@ -39,7 +38,6 @@ public interface AnalyticsRepository extends JpaRepository<Reservations, Long> {
             SELECT T.transit_line_name, COUNT(*) AS ReservationsCount
             FROM Reservations R
             JOIN Schedules S1 ON R.ongoing_schedule_id = S1.schedule_id
-            JOIN Schedules S2 ON R.return_schedule_id = S2.schedule_id
             JOIN Trains T ON S1.train_id = T.train_id
             GROUP BY T.transit_line_name
             ORDER BY ReservationsCount DESC
