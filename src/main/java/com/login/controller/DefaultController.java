@@ -12,7 +12,7 @@ public class DefaultController {
     @GetMapping
     public String redirectUser(HttpSession session) {
         // Redirect root URL (/) to /login
-        if (session.getAttribute("user") != null) {
+        if (session.getAttribute("username") != null) {
             return "redirect:/home";
         }
         return "redirect:/login";

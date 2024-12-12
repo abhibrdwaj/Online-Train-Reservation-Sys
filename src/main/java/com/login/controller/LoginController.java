@@ -1,5 +1,6 @@
 package com.login.controller;
 
+import com.login.constants.Role;
 import com.login.constants.TicketTypes;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +38,15 @@ public class LoginController {
         }
 
         // Redirect based on role
-        String role = user.getRole();
+        Role role = user.getRole();
  
         model.addAttribute("user", user);
         model.addAttribute("ticketTypes", TicketTypes.values());
 
         session.setAttribute("username", user.getUsername());
-        session.setAttribute("role", role);
+        session.setAttribute("role", role.toString());
 
-        if ("ADMIN".equalsIgnoreCase(role)) {
+        if (Role.ADMIN == role) {
             return "redirect:/admin/dashboard";
         } else {
             return "redirect:/user/home";

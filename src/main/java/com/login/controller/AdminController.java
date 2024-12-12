@@ -78,12 +78,12 @@ public class AdminController {
                                   @RequestParam(defaultValue = "1") int page,
                                   Model model) {
         int pageSize = 10;
-        Page<Reservations> reservations;
+        Page<Object> reservations;
         long totalReservations;
 
-        if (firstName != null && lastName != null) {
+        if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()) {
             reservations = reservationService.findByCustomerName(firstName, lastName, page, pageSize);
-        } else if (transitLineName != null) {
+        } else if (transitLineName != null && !transitLineName.isEmpty()) {
             reservations = reservationService.findByTransitLine(transitLineName, page, pageSize);
         } else {
             reservations = reservationService.getAllReservationsPageable(page, pageSize);
@@ -108,7 +108,7 @@ public class AdminController {
         response.setHeader("Content-Disposition", "attachment; filename=reservations.csv");
 
         try (CSVWriter writer = new CSVWriter(response.getWriter())) {
-            String[] header = {"Reservation No", "Customer", "Reservation Date", "Origin Station", "Destination Station", "Schedule ID", "Total Fare", "Round Trip"};
+            String[] header = {"Reservation No", "Customer", "Reservation Date", "Origin Station", "Destination Station", "Total Fare", "Round Trip"};
             writer.writeNext(header);
             for (Reservations reservation : reservations) {
                 String[] data = {
@@ -117,9 +117,8 @@ public class AdminController {
                         reservation.getReservationDate().toString(),
                         String.valueOf(reservation.getOriginStationId()),
                         String.valueOf(reservation.getDestinationStationId()),
-                        String.valueOf(reservation.getScheduleId()),
                         String.valueOf(reservation.getTotalFare()),
-                        reservation.getRoundTrip() ? "Yes" : "No"
+                        reservation.isRoundTrip() ? "Yes" : "No"
                 };
                 writer.writeNext(data);
             }

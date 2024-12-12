@@ -1,5 +1,6 @@
 package com.login.service;
 
+import com.login.constants.Role;
 import com.login.model.User;
 import com.login.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -11,7 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.login.constants.Common.*;
-import static com.login.constants.Roles.*;
 
 @Service
 public class AdminService {
@@ -29,7 +29,7 @@ public class AdminService {
         if (userRepository.existsByUsername(username)) {
             return false; // Username already exists
         }
-        User custRep = new User(lastName, firstName, username, loginService.hashPassword(DEFAULT_PASSWORD), email, ssn, CUSTOMER_REP);
+        User custRep = new User(lastName, firstName, username, loginService.hashPassword(DEFAULT_PASSWORD), email, ssn, Role.CUSTOMER_REP);
 
         userRepository.save(custRep);
         return true;

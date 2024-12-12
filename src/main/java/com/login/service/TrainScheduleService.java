@@ -42,11 +42,15 @@ public class TrainScheduleService {
             Map<String, Object> schedule = new HashMap<>();
             schedule.put("scheduleId", row[0]);
             schedule.put("trainId", row[1]);
-            schedule.put("departureDatetime", row[2]);
-            schedule.put("arrivalDatetime", row[3]);
+            schedule.put("departureTime", row[2]);
+            schedule.put("arrivalTime", row[3]);
             schedule.put("travelTime", row[4]);
             schedule.put("transitLine", row[5]);
-            schedule.put("stops", ((String) row[6]).split(",")); // Split stops into an array
+            if (row[6] != null) {
+                schedule.put("stops", ((String) row[6]).split(",")); // Split stops into an array
+            } else {
+                schedule.put("stops", "0"); // Split stops into an array
+            }
 
             double baseFare = ((BigDecimal) row[7]).doubleValue();
 
@@ -54,7 +58,7 @@ public class TrainScheduleService {
             totalFare += adults * baseFare;            // Adults pay full fare
             totalFare += children * baseFare * 0.75;  // Children get a 25% discount
             totalFare += seniors * baseFare * 0.65;   // Seniors get a 35% discount
-            totalFare += disabled * baseFare * 0.50;
+            totalFare += disabled * baseFare * 0.50; // Disabled get a 50% discount
 
             schedule.put("fare", Math.round(totalFare * 100.0) / 100.0); // Round to 2 decimal places
             scheduleDetails.add(schedule);
@@ -67,14 +71,17 @@ public class TrainScheduleService {
     public void sortSchedules(List<Map<String, Object>> trains, String sortBy) {
         if (sortBy != null) {
             switch (sortBy) {
-                case "departureDatetime":
-                    trains.sort(Comparator.comparing(train -> (LocalDateTime) train.get("departureDatetime")));
+                case "departureTime":
+                    trains.sort(Comparator.comparing(train -> {
+                        java.sql.Time departureTime = (java.sql.Time) train.get("departureTime");
+                        return departureTime.toLocalTime();
+                    }));
                     break;
-                case "arrivalDatetime":
-                    trains.sort(Comparator.comparing(train -> (LocalDateTime) train.get("arrivalDatetime")));
-                    break;
-                case "travelTime":
-                    trains.sort(Comparator.comparing(train -> (Duration) train.get("travelTime")));
+                case "arrivalTime":
+                    trains.sort(Comparator.comparing(train -> {
+                        java.sql.Time arrivalTime = (java.sql.Time) train.get("arrivalTime");
+                        return arrivalTime.toLocalTime();
+                    }));
                     break;
                 case "fare":
                     trains.sort(Comparator.comparing(train -> (Double) train.get("fare")));
@@ -85,4 +92,5 @@ public class TrainScheduleService {
             }
         }
     }
+
 }

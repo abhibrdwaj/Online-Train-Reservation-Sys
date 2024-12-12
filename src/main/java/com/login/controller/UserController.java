@@ -1,13 +1,22 @@
 package com.login.controller;
 
+import com.login.service.ReservationService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    private final ReservationService reservationService;
+
+    public UserController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
 
     @GetMapping("/home")
     public String showHomePage(ModelMap model) {
@@ -15,7 +24,23 @@ public class UserController {
     }
 
     @GetMapping("/my_bookings")
-    public String showMyBookings(ModelMap model) {
+    public String viewBookings(HttpSession session, Model model) {
+        String customer = session.getAttribute("username").toString();
+        reservationService.getReservationsByCustomer(customer, model);
         return "user/my_bookings";
+    }
+
+    // Method to cancel a reservation
+    @GetMapping("/cancelReservation/{reservationId}")
+    public String cancelReservation(@PathVariable int reservationId, RedirectAttributes redirectAttributes) {
+        try {
+            // Cancel the reservation using the service
+            reservationService.cancelReservation(reservationId);
+            redirectAttributes.addFlashAttribute("message", "Reservation cancelled successfully.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to cancel the reservation.");
+        }
+        // Redirect to the manage bookings page after cancellation
+        return "redirect:/user/my_bookings";
     }
 }

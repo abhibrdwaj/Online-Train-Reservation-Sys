@@ -45,25 +45,28 @@
             <thead class="thead-dark">
             <tr>
                 <th>Reservation No</th>
-                <th>Customer</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Origin Station</th>
                 <th>Destination Station</th>
-                <th>Departure DateTime</th>
-                <th>Schedule ID</th>
+                <th>Ongoing Date</th>
+                <th>Return Date</th>
+                <th>Total Fare</th>
                 <th>Round Trip</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="reservation" items="${reservations}">
                 <tr>
-                    <td>${reservation.reservationNo}</td>
-                    <td>${reservation.customer}</td>
-                    <td>${reservation.originStationId}</td>
-                    <td>${reservation.destinationStationId}</td>
-                    <td>${reservation.scheduleId}</td>
-                    <td>${reservation.totalFare}</td>
-                    <td>${reservation.roundTrip ? 'Yes' : 'No'}</td>
-                </tr>
+                    <td>${reservation[0]}</td>
+                    <td>${reservation[1]}</td>
+                    <td>${reservation[2]}</td>
+                    <td>${reservation[3]}</td>
+                    <td>${reservation[4]}</td>
+                    <td>${reservation[5]}</td>
+                    <td>${reservation[6]}</td>
+                    <td>${reservation[7]}</td>
+                    <td>${reservation[8] ? 'Yes' : 'No'} </td>
             </c:forEach>
             </tbody>
         </table>

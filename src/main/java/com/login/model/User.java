@@ -1,14 +1,14 @@
 package com.login.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
+import com.login.constants.Role;
+import jakarta.persistence.*;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "users")  // Specifies the table name in the database
-public class User {
+public class User implements Serializable {
 
 	@Id
 	@Column(name = "username", length = 50)
@@ -20,7 +20,7 @@ public class User {
 	@Column(name = "last_name", length = 50, nullable = false)
 	private String lastName;
 
-	@Column(name = "email_address", length = 100, nullable = false, unique = true)
+	@Column(name = "email_address", length = 100, unique = true)
 	private String emailAddress;
 
 	@Column(name = "password", length = 255, nullable = false)
@@ -29,13 +29,14 @@ public class User {
 	@Column(name = "social_security_number", length = 11, unique = true)
 	private String socialSecurityNumber;  // Nullable for customers
 
-	@Column(name = "role", length = 100, nullable = false)
-	private String role;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "role", nullable = false)
+	private Role role;
 
 	public User() {
 	}
 
-	public User(String lastName, String firstName, String username, String password, String email, String ssn, String role) {
+	public User(String lastName, String firstName, String username, String password, String email, String ssn, Role role) {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.username = username;
@@ -86,14 +87,13 @@ public class User {
 		this.password = password;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
-
 	public String getSocialSecurityNumber() {
 		return socialSecurityNumber;
 	}
@@ -101,5 +101,4 @@ public class User {
 	public void setSocialSecurityNumber(String socialSecurityNumber) {
 		this.socialSecurityNumber = socialSecurityNumber;
 	}
-    
 }
