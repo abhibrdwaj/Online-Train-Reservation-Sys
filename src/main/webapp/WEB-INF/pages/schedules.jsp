@@ -100,13 +100,14 @@
     $(document).on('click', '.save-btn', function() {
         var row = $(this).closest('tr');
         var schedule_id = row.data('id');
+        var train_id = row.find('td').eq(1).text();
         
         var updatedSchedule = {
             scheduleId: schedule_id,
-            trainId: row.find('input').eq(0).val(),
-            departureTime: row.find('input').eq(1).val(), // Convert to ISO string
-            arrivalTime: row.find('input').eq(2).val(), // Convert to ISO string
-            direction: row.find('input').eq(3).val()
+            trainId: train_id,
+            departureTime: row.find('input').eq(0).val(), // Convert to ISO string
+            arrivalTime: row.find('input').eq(1).val(), // Convert to ISO string
+            direction: row.find('input').eq(2).val()
         };
 
         // Send the updated schedule to the backend

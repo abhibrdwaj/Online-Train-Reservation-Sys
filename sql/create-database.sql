@@ -4,13 +4,13 @@ Use RailwayBookingSystem;
 -- Drop existing tables if they exist
 DROP TABLE IF EXISTS TrainStops;
 DROP TABLE IF EXISTS Reservations;
+DROP TABLE IF EXISTS Answers;
+DROP TABLE IF EXISTS Questions;
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Schedules;
 DROP TABLE IF EXISTS Trains;
 DROP TABLE IF EXISTS TransitLines;
 DROP TABLE IF EXISTS Stations;
-DROP TABLE IF EXISTS Answers;
-DROP TABLE IF EXISTS Questions;
 
 CREATE TABLE Stations (
     station_id INT PRIMARY KEY,
@@ -106,12 +106,6 @@ CREATE TABLE Answers (
      FOREIGN KEY (question_id) REFERENCES Questions(question_id),
      FOREIGN KEY (username) REFERENCES Users(username)
 );
-
-INSERT INTO Questions (username, question_text, timestamp) VALUES ('customer2', 'How to jump?', '2023-12-11 15:30:25');
-
-
--- INSERT User data
-SELECT * FROM Questions;
 
 INSERT into Users (last_name, first_name, username, password, email_address, role)
 VALUES
@@ -217,9 +211,10 @@ VALUES
 
 
 
+INSERT INTO Questions (username, question_text, timestamp) VALUES ('customer2', 'How to make payments?', '2024-12-11 11:30:00' ),
+                                                                  ('customer2', 'How to avail discounts?', '2024-12-11 11:40:00' );
 
-
-SELECT * FROM Schedules;
+SELECT * FROM Trains;
 SELECT * FROM Users;
 SELECT * FROM Stations;
 
