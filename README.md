@@ -97,12 +97,13 @@ If you encounter any issues:
 - Check the console logs for errors when running the Spring Boot application.
 - Reach out to abhinavbharadwaj.sarathy@rutgers.edu
 
-## Login/Logout Output (simple version)
-1. **Login Page**
-![Login Background](assets/img/login-page.jpg)
+## Credentials
 
-2. **Welcome Page**
-![Login Background](assets/img/welcome-page.jpg)
+Admin
+username: adminuser1
+password: password123
 
-3. **Logout Page**
-![Login Background](assets/img/logout-page.jpg)
+Customer Rep
+username: customerrep1
+password: password123
+
