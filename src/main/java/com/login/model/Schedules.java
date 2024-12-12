@@ -1,68 +1,88 @@
 package com.login.model;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 import java.time.LocalTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
 @Entity
-@Table(name="schedules")
+@Table(name = "Schedules")
 public class Schedules {
 
     @Id
-    @Column(name = "schedule_id")
-    private int schedule_id;
-    @Column(name = "train_id")
-    private int train_id;
-    @Column(name = "departure_datetime")
-    private LocalDateTime departure_datetime;
-    @Column(name = "arrival_datetime")
-    private LocalDateTime arrival_datetime;
-    @Column(name = "travel_time")
-    private LocalTime travel_time;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment for schedule_id
+    private Integer scheduleId;
 
-    public int getSchedule_id() {
-        return this.schedule_id;
+    @Column(nullable = false)
+    private Integer trainId;
+
+    @Column(nullable = false)
+    private LocalTime departureTime;
+
+    @Column(nullable = false)
+    private LocalTime arrivalTime;
+
+    @Column(nullable = false)
+    private LocalTime travelTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Direction direction;
+
+    // Enum for Direction
+    public enum Direction {
+        FORWARD,
+        REVERSE
     }
 
-    public void setSchedule_id(int schedule_id) {
-        this.schedule_id = schedule_id;
+    // Getters and Setters
+    public Integer getScheduleId() {
+        return scheduleId;
     }
 
-    public int getTrain_id() {
-        return this.train_id;
+    public void setScheduleId(Integer scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
-    public void setTrain_id(int train_id) {
-        this.train_id = train_id;
+    public Integer getTrainId() {
+        return trainId;
     }
 
-    public LocalDateTime getDeparture_datetime() {
-        return this.departure_datetime;
+    public void setTrainId(Integer trainId) {
+        this.trainId = trainId;
     }
 
-    public void setDeparture_datetime(LocalDateTime departure_datetime) {
-        this.departure_datetime = departure_datetime;
+    public LocalTime getDepartureTime() {
+        return departureTime;
     }
 
-    public LocalDateTime getArrival_datetime() {
-        return this.arrival_datetime;
+    public void setDepartureTime(LocalTime departureTime) {
+        this.departureTime = departureTime;
     }
 
-    public void setArrival_datetime(LocalDateTime arrival_datetime) {
-        this.arrival_datetime = arrival_datetime;
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
     }
 
-    public LocalTime getTravel_time() {
-        return this.travel_time;
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
-    public void setTravel_time(LocalTime travel_time) {
-        this.travel_time = travel_time;
+    public Direction getDirection() {
+        return direction;
     }
 
-    
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    // Optional: toString for debugging
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "scheduleId=" + scheduleId +
+                ", trainId=" + trainId +
+                ", departureTime=" + departureTime +
+                ", arrivalTime=" + arrivalTime +
+                ", direction=" + direction +
+                '}';
+    }
 }

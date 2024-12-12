@@ -1,5 +1,8 @@
 package com.login.controller;
 
+import com.login.constants.Role;
+import com.login.constants.TicketTypes;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,7 +24,11 @@ public class LoginController {
     }
  
     @RequestMapping(value="/login", method = RequestMethod.POST)
-    public String showWelcomePage(ModelMap model, @RequestParam String name, @RequestParam String password){
+    public String showWelcomePage(
+            ModelMap model,
+            @RequestParam String name,
+            @RequestParam String password,
+            HttpSession session) {
  
         User user = service.authenticateUser(name, password);
  
@@ -29,10 +36,21 @@ public class LoginController {
             model.addAttribute("error", "Invalid Credentials");
             return "login";
         }
+
+        // Redirect based on role
+        Role role = user.getRole();
  
         model.addAttribute("user", user);
- 
-        return "make_reservation";
+        model.addAttribute("ticketTypes", TicketTypes.values());
+
+        session.setAttribute("username", user.getUsername());
+        session.setAttribute("role", role.toString());
+
+        if (Role.ADMIN == role) {
+            return "redirect:/admin/dashboard";
+        } else {
+            return "redirect:/user/home";
+        }
     }
      
     @RequestMapping(value="/logout", method = RequestMethod.GET)

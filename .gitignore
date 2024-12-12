@@ -23,7 +23,13 @@
 hs_err_pid*
 replay_pid*
 
-# Compile Files #
+# IntellIJ compile Files #
 target/
 .idea/
 bin/
+
+#vscode
+.vscode
+.settings
+.project
+.classpath
