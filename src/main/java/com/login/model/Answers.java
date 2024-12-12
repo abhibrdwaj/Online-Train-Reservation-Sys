@@ -52,5 +52,5 @@ public class Answers {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
-    
+
 }
