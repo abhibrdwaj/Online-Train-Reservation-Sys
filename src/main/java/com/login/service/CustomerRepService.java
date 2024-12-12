@@ -6,18 +6,11 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import com.login.model.*;
+import com.login.repository.*;
 import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.login.model.Answers;
-import com.login.model.Questions;
-import com.login.model.Reservations;
-import com.login.model.Schedules;
-import com.login.repository.AnswerRepository;
-import com.login.repository.SchedulesRepository;
-import com.login.repository.QuestionRepository;
-import com.login.repository.ReservationRepository;
 
 @Service
 public class CustomerRepService {
@@ -33,6 +26,8 @@ public class CustomerRepService {
 
     @Autowired
     private AnswerRepository answerRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Schedules> getAllSchedules(){
         return schedulesRepository.findAll();
@@ -60,14 +55,14 @@ public class CustomerRepService {
     //     return true;
     // }
 
-    public List<Schedules> getSchedulesForStations(){
-        return schedulesRepository.findSchedulesWithValidStations();
+    public List<Schedules> getSchedulesForStations(String keyword){
+        return schedulesRepository.findSchedulesWithValidStations(keyword);
     }
 
-    public List<Reservations> getReservationsWithDateAndLine(String reservationDate,String TransitLines) throws ParseException{
+    public List<User> getReservationsWithDateAndLine(String reservationDate, String TransitLines) throws ParseException{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date reservation = sdf.parse(reservationDate);
-        return reservationRepository.findReservationsWithDateAndTransitLine(reservation,TransitLines);
+        return userRepository.findReservationsWithDateAndTransitLine(reservation,TransitLines);
     }
 
     public List<Questions> getAllQuestions() {

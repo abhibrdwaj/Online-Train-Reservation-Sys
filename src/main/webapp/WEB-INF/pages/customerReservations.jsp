@@ -70,9 +70,9 @@
                     
                     // Populate results in the table
                     if (data.length > 0) {
-                        var table = '<table border="1"><tr><th>Reservation no</th><th>Reservation date</th><th>Origin station id</th><th>Destination station id</th><th>Schedule id</th><th>Departure datetime</th><th>Total fare</th><th>Round trip</th></tr>';
-                        $.each(data, function(index, reservation) {
-                            table += '<tr><td>' + reservation.reservation_no + '</td><td>' + reservation.reservation_date + '</td><td>' + reservation.origin_station_id + '</td><td>' + reservation.destination_station_id + '</td><td>' + reservation.schedule_id + '</td><td>' + reservation.departure_datetime + '</td><td>' + reservation.total_fare + '</td><td>' + reservation.is_round_trip + '</td></tr>';
+                        var table = '<table border="1"><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Email Address</th></tr>';
+                        $.each(data, function(index, user) {
+                            table += '<tr><td>' + user.username + '</td><td>' + user.firstName + '</td><td>' + user.lastName + '</td><td>' + user.emailAddress + '</td></tr>';
                         });
                         table += '</table>';
                         $('#results').html(table);
@@ -89,7 +89,7 @@
 </head>
 <body>
 
-<h1>Search Reservations</h1>
+<h1>Search Customers</h1>
 <form onsubmit="event.preventDefault(); searchReservations();">
     <label for="date">Reservation Date:</label>
     <input type="text" id="date" name="date" placeholder="yyyy-MM-dd" required>

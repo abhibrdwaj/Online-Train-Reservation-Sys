@@ -57,6 +57,9 @@
 </head>
 <body>
     <h1>Station Schedules</h1>
+    <label for="stationName">Station Name:</label>
+    <input type="text" id="stationName" name="stationName" required>
+
     <button onclick="loadSchedules()">Load Station Schedules</button>
     <div id="scheduleTableContainer"></div>
     <!-- <button class="back-button" onclick="goBack()">Back to Home</button> -->
@@ -66,10 +69,17 @@
 
     <script>
         function loadSchedules() {
+            var stationName = $('#stationName').val();
+            if (!stationName) {
+                alert("Please enter a station name.");
+                return;
+            }
+
             $.ajax({
                 url: '/stationschedules',
                 type: 'GET',
                 dataType: 'json',
+                data: { stationName: stationName },
                 success: function(data) {
                     displaySchedules(data);
                 },

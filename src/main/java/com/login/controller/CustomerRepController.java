@@ -8,6 +8,7 @@ import java.util.Date;
 //import java.util.Date;
 import java.util.List;
 
+import com.login.model.*;
 import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.login.model.Answers;
-import com.login.model.Questions;
-import com.login.model.Reservations;
-import com.login.model.Schedules;
 import com.login.service.CustomerRepService;
 
 @Controller
@@ -114,16 +111,16 @@ public class CustomerRepController {
 
     @GetMapping("/stationschedules")
     @ResponseBody
-    public ResponseEntity<List<Schedules>> getStationSchedules() {
-        List<Schedules> schedules = customerRepService.getSchedulesForStations();
+    public ResponseEntity<List<Schedules>> getStationSchedules(@RequestParam("stationName") String stationName) {
+        List<Schedules> schedules = customerRepService.getSchedulesForStations(stationName);
         return ResponseEntity.ok(schedules);
     }
 
     @GetMapping("/reservations")
     @ResponseBody
-    public ResponseEntity<List<Reservations>> searchReservations(@RequestParam String date, @RequestParam String transitLineName) throws ParseException {
-         List<Reservations> reservation = customerRepService.getReservationsWithDateAndLine(date, transitLineName);
-         return ResponseEntity.ok(reservation);
+    public ResponseEntity<List<User>> searchReservations(@RequestParam String date, @RequestParam String transitLineName) throws ParseException {
+         List<User> users = customerRepService.getReservationsWithDateAndLine(date, transitLineName);
+         return ResponseEntity.ok(users);
     }
 
     // @GetMapping("/questions")
