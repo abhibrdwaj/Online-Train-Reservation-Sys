@@ -10,13 +10,17 @@ import java.util.List;
 
 import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 //import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,9 +41,9 @@ public class CustomerRepController {
         return "customerRep"; 
     }
 
-    @GetMapping("/editDelete")
-    public String editDelete() {
-        return "editDelete";
+    @GetMapping("/view-schedules")
+    public String viewSchedules() {
+        return "schedules";
     }
 
     @GetMapping("/replyQuestions")
@@ -76,11 +80,37 @@ public class CustomerRepController {
         return customerRepService.getAllSchedules();
     }
 
-    @PostMapping("/delete-schedule/{id}")
-    public String deleteSchedule(@PathVariable Long id) {
-        customerRepService.deleteSchedule(id);
-        return "redirect:/edit-delete-schedules";
+    @GetMapping("/{id}")
+    public ResponseEntity<Schedules> getScheduleById(@PathVariable int id) {
+        Schedules schedule = customerRepService.getScheduleById(id);
+        return schedule != null ? ResponseEntity.ok(schedule) : ResponseEntity.notFound().build();
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Schedules> updateSchedule(@PathVariable int id, @RequestBody Schedules schedule) {
+        if (customerRepService.getScheduleById(id) == null) {
+            return ResponseEntity.notFound().build();
+        }
+        schedule.setSchedule_id(id);
+        return ResponseEntity.ok(customerRepService.updateSchedule(schedule));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable int id) {
+        if (customerRepService.getScheduleById(id) == null) {
+            return ResponseEntity.notFound().build();
+        }
+        customerRepService.deleteSchedule(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+    // @PostMapping("/delete-schedule/{id}")
+    // public String deleteSchedule(@PathVariable Long id) {
+    //     customerRepService.deleteSchedule(id);
+    //     return "redirect:/edit-delete-schedules";
+    // }
 
     @GetMapping("/stationschedules")
     @ResponseBody
@@ -96,24 +126,39 @@ public class CustomerRepController {
          return ResponseEntity.ok(reservation);
     }
 
+    // @GetMapping("/questions")
+    // public String showQuestions(Model model) {
+    //     List<Questions> questions = customerRepService.getAllQuestions();
+    //     model.addAttribute("questions", questions);
+    //     return "replyQuestions";
+    // }
+
+
     @GetMapping("/questions")
-    public String showQuestions(Model model) {
-        List<Questions> questions = customerRepService.getAllQuestions();
-        model.addAttribute("questions", questions);
-        return "replyQuestions";
+    @ResponseBody
+    public ResponseEntity<List<Questions>> showQuestions(){
+        List<Questions> question = customerRepService.getAllQuestions();
+        return ResponseEntity.ok(question);
     }
 
-    @PostMapping("/submitAnswer")
-    public String submitAnswer(@RequestParam int questionId, 
-                                @RequestParam String answerText) throws ParseException {
-        Answers answer = new Answers();
-        answer.setQuestion_id(questionId);
-        answer.setAnswer_text(answerText);
-        //answer.setTimestamp(new Date());
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault());
-        answer.setTimestamp(localDateTime);
+    // @PostMapping("/submitAnswer")
+    // public String submitAnswer(@RequestParam int questionId, 
+    //                             @RequestParam String answerText) throws ParseException {
+    //     Answers answer = new Answers();
+    //     answer.setQuestion_id(questionId);
+    //     answer.setAnswer_text(answerText);
+    //     //answer.setTimestamp(new Date());
+    //     LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault());
+    //     answer.setTimestamp(localDateTime);
 
-        customerRepService.saveAnswer(answer);
-        return "redirect:/replyQuestions";
+    //     customerRepService.saveAnswer(answer);
+    //     return "redirect:/replyQuestions";
+// }
+
+        @PostMapping("/submitAnswer")
+        public ResponseEntity<Answers> submitAnswer(@RequestBody Answers answer) {
+            Answers savedAnswer = customerRepService.saveAnswer(answer);
+            return new ResponseEntity<>(savedAnswer, HttpStatus.CREATED);
     }
+
 }

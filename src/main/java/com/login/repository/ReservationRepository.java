@@ -19,6 +19,8 @@ public interface ReservationRepository extends JpaRepository<Reservations,Long>{
            nativeQuery = true)
     List<Reservations> findReservationsWithDateAndTransitLine(Date reservationDate, String transitLineName);
 
+    //boolean existsByScheduleId(int scheduleId);
+
 
     
 }

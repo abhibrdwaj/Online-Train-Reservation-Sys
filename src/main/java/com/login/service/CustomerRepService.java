@@ -2,6 +2,7 @@ package com.login.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import com.login.model.Questions;
 import com.login.model.Reservations;
 import com.login.model.Schedules;
 import com.login.repository.AnswerRepository;
-import com.login.repository.CustomerRepRepository;
+import com.login.repository.SchedulesRepository;
 import com.login.repository.QuestionRepository;
 import com.login.repository.ReservationRepository;
 
@@ -22,7 +23,7 @@ import com.login.repository.ReservationRepository;
 public class CustomerRepService {
     
     @Autowired
-    private CustomerRepRepository customerRepRepository;
+    private SchedulesRepository schedulesRepository;
 
     @Autowired
     private ReservationRepository reservationRepository;
@@ -34,15 +35,33 @@ public class CustomerRepService {
     private AnswerRepository answerRepository;
 
     public List<Schedules> getAllSchedules(){
-        return customerRepRepository.findAll();
+        return schedulesRepository.findAll();
     }
 
-    public void deleteSchedule(Long id){
-        customerRepRepository.deleteById(id);
+    public Schedules getScheduleById(int id) {
+        return schedulesRepository.findById(id).orElse(null);
     }
+
+    public Schedules updateSchedule(Schedules schedule) {
+        return schedulesRepository.save(schedule);
+    }
+
+    public void deleteSchedule(int id) {
+        schedulesRepository.deleteById(id);
+    }
+
+    // public boolean deleteSchedule(int schedule_id) {
+    //     // Check if there are any reservations for this schedule
+    //     if (reservationRepository.existsByScheduleId(schedule_id)) {
+    //         return false; // Cannot delete due to existing reservations
+    //     }
+        
+    //     schedulesRepository.deleteById(scheduleId);
+    //     return true;
+    // }
 
     public List<Schedules> getSchedulesForStations(){
-        return customerRepRepository.findSchedulesWithValidStations();
+        return schedulesRepository.findSchedulesWithValidStations();
     }
 
     public List<Reservations> getReservationsWithDateAndLine(String reservationDate,String TransitLines) throws ParseException{
@@ -52,10 +71,11 @@ public class CustomerRepService {
     }
 
     public List<Questions> getAllQuestions() {
-        return questionRepository.findAll();
+        return questionRepository.findUnansweredQuestions();
     }
 
-    public void saveAnswer(Answers answer) {
-        answerRepository.save(answer);
+    public Answers saveAnswer(Answers answer) {
+        answer.setTimestamp(LocalDateTime.now());
+        return answerRepository.save(answer);
     }
 }

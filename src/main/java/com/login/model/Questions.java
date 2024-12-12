@@ -14,10 +14,10 @@ public class Questions {
     @Id
     @Column(name = "question_id")
     private int question_id;
-    @Column(name = "customer_id")
-    private int customer_id;
+    @Column(name = "username")
+    private String username;
     @Column(name = "question_text")
-    private int question_text;
+    private String question_text;
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
 
@@ -29,19 +29,19 @@ public class Questions {
         this.question_id = question_id;
     }
 
-    public int getCustomer_id() {
-        return this.customer_id;
+    public String getUsername() {
+        return this.username;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public int getQuestion_text() {
+    public String getQuestion_text() {
         return this.question_text;
     }
 
-    public void setQuestion_text(int question_text) {
+    public void setQuestion_text(String question_text) {
         this.question_text = question_text;
     }
 

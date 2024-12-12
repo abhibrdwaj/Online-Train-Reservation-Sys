@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.login.model.Schedules;
 
 @Repository
-public interface CustomerRepRepository extends JpaRepository<Schedules,Long>{
+public interface SchedulesRepository extends JpaRepository<Schedules,Integer>{
 
     @Query(value = "SELECT * FROM Schedules WHERE train_id IN " +
                    "(SELECT train_id FROM Trains WHERE transit_line_name IN " +

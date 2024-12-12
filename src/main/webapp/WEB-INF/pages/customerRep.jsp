@@ -48,7 +48,7 @@
 <body>
     <h1>Welcome to the Customer Representative Portal</h1>
     <div class="menu">
-        <form action="/editDelete" method="get">
+        <form action="/view-schedules" method="get">
             <button type="submit" class="menu-item">Edit/Delete Train Schedules</button>
         </form>
         <form action="/replyQuestions" method="get">
