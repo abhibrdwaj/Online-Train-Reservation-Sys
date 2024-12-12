@@ -31,7 +31,7 @@
                 <th>Train ID</th>
                 <th>Departure</th>
                 <th>Arrival</th>
-                <th>Travel Time</th>
+                <th>Direction</th>
             </tr>
         </thead>
         <tbody>
@@ -60,16 +60,16 @@
                 //     '<button class="delete-btn" data-id="' + schedule.schedule_id + '">Delete</button>' +
                 //     '</td>' +
                 //     '</tr>';
-                var row = '<tr data-id="' + schedule.schedule_id + '">' +
-                        '<td>' + schedule.schedule_id + '</td>' +
-                        '<td><input type="text" value="' + schedule.train_id + '" disabled /></td>' +
-                        '<td><input type="text" value="' + new Date(schedule.departure_datetime).toLocaleString() + '" disabled /></td>' +
-                        '<td><input type="text" value="' + new Date(schedule.arrival_datetime).toLocaleString() + '" disabled /></td>' +
-                        '<td><input type="text" value="' + schedule.travel_time + '" disabled /></td>' +
+                var row = '<tr data-id="' + schedule.scheduleId + '">' +
+                        '<td>' + schedule.scheduleId + '</td>' +
+                        '<td>' + schedule.trainId + '</td>' +
+                        '<td><input type="text" value="' + (schedule.departureTime).toLocaleString() + '" disabled /></td>' +
+                        '<td><input type="text" value="' + (schedule.arrivalTime).toLocaleString() + '" disabled /></td>' +
+                        '<td><input type="text" value="' + schedule.direction + '" disabled /></td>' +
                         '<td>' +
                         '<button class="edit-btn">Edit</button>' +
                         '<button class="save-btn" style="display:none;">Save</button>' +
-                        '<button class="delete-btn" data-id="' + schedule.schedule_id + '">Delete</button>' +
+                        '<button class="delete-btn" data-id="' + schedule.scheduleId + '">Delete</button>' +
                         '</td>' +
                         '</tr>';
                 tableBody.append(row);
@@ -102,11 +102,11 @@
         var schedule_id = row.data('id');
         
         var updatedSchedule = {
-            schedule_id: schedule_id,
+            scheduleId: schedule_id,
             trainId: row.find('input').eq(0).val(),
-            departure_datetime: new Date(row.find('input').eq(1).val()).toISOString(), // Convert to ISO string
-            arrival_datetime: new Date(row.find('input').eq(2).val()).toISOString(), // Convert to ISO string
-            travel_time: row.find('input').eq(3).val()
+            departureTime: row.find('input').eq(1).val(), // Convert to ISO string
+            arrivalTime: row.find('input').eq(2).val(), // Convert to ISO string
+            direction: row.find('input').eq(3).val()
         };
 
         // Send the updated schedule to the backend
